@@ -1,0 +1,18 @@
+Package: fun.valuation
+Title: Personal fundamental analysis tool
+Version: 0.1
+Authors@R: 
+    person(given = "Alexei",
+           family = "Remizovschi",
+           role = c("aut", "cre"),
+           email = "alexei@remizovschi.com"
+Description: fun.valuation represents a set of tools aimed to facilitate fundamental
+             analysis of publicly traded companies.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
