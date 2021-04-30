@@ -1,4 +1,5 @@
 #' Capitalize R&D (-2 years)
+#' @description Capitalize R&D investments (Non-tech service, Ads, Banks, Restaurant, Retail Store etc.)
 #' @param cashflows A list of numbers
 #' @param amortized Boolean
 #' @return Amortized or Unamortized portion of R&D
@@ -27,6 +28,7 @@ get_amortization_2 <- function(cash_flows, amortized) {
 }
 
 #' Capitalize R&D (-3 years)
+#' @description Capitalize R&D investments (Retail tech service, Apparel, Entertainment, Food processing, Household products, Newspapers, Publishing etc.)
 #' @param cashflows A list of numbers
 #' @param amortized Boolean
 #' @return Amortized or Unamortized portion of R&D
@@ -57,6 +59,7 @@ get_amortization_3 <- function(cash_flows, amortized) {
 }
 
 #' Capitalize R&D (-5 years)
+#' @description Capitalize R&D investments (Light manufacturing, Aluminum, Auto Parts, Building Materials, Computer Peripherals, Gold/Silver, Mining, Office supplies, Petroleum, Textile, Rubber, Tabacco)
 #' @param cashflows A list of numbers
 #' @param amortized Boolean
 #' @return Amortized or Unamortized portion of R&D
@@ -92,6 +95,7 @@ get_amortization_5 <- function(cash_flows, amortized) {
 
 
 #' Capitalize R&D (-10 years)
+#' @description Capitalize R&D investments (Chemical, Auto/Truck, Drug, Machine, Maritime, Paper, Telecom Equipment, Water Utility, Heavy Manufacturing, Research with patenting)
 #' @param cashflows A list of numbers
 #' @param amortized Boolean
 #' @return Amortized or Unamortized portion of R&D
@@ -137,6 +141,7 @@ get_amortization_10 <- function(cash_flows, amortized) {
 
 
 #' Capitalize future leases
+#' @description Transform future paid leases into debt
 #' @param lease_flow A list of numbers
 #' @param beyond A number
 #' @param cost_debt A number
@@ -186,6 +191,7 @@ get_leases <- function(lease_flow, beyond, cost_debt) {
 }
 
 #' Calculate lease adjustment to EBIT
+#' @description Calculate lease adjustment to EBIT (for ROIC calculation)
 #' @param current_lease A number Current lease expense (from IS)
 #' @param debt_value_lease A number Capitalized leases
 #' @param lease_embedded_years A number Embedded years in leases (5Y)
@@ -200,6 +206,7 @@ lease_adjustment <- function(current_lease, debt_value_lease, lease_embedded_yea
 }
 
 #' Calculate ROIC
+#' @description Calculate Return on Invested Capital
 #' @param ebit A number Current year EBIT
 #' @param curr_lease_adj A number Lease adjustment to EBIT
 #' @param rnd_adj A number R&D adjustment to EBIT
@@ -247,10 +254,11 @@ get_roic <- function(ebit, curr_lease_adj, rnd_adj, eff_tax,
 }
 
 #' Calculate ROE
+#' @description Calculate Return on Equity
 #' @param income A number Current year income
 #' @param rnd_adj A number R&D adjustment
 #' @param equity A number Current year Equity
-#' @param goodwill A number goodwill
+#' @param goodwill A number Goodwill
 #' @param goodwill_portion A number Portion of goodwill adjustment (default=0)
 #' @param rnd_asset A number Unamortized portion of R&D
 #' @return A tibble ROE and the other parameters

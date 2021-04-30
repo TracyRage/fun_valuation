@@ -15,7 +15,7 @@ get_amortization_5(cash_flows, amortized)
 Amortized or Unamortized portion of R&D
 }
 \description{
-Capitalize R&D (-5 years)
+Capitalize R&D investments (Light manufacturing, Aluminum, Auto Parts, Building Materials, Computer Peripherals, Gold/Silver, Mining, Office supplies, Petroleum, Textile, Rubber, Tabacco)
 }
 \examples{
 # Vector of cash flows

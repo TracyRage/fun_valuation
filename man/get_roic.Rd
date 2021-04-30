@@ -54,7 +54,7 @@ get_roic(
 A tibble ROIC and other parameters
 }
 \description{
-Calculate ROIC
+Calculate Return on Invested Capital
 }
 \examples{
 roic <- get_roic(ebit=2033, curr_lease_adj=56763, eff_tax=0.2, short_debt=333,

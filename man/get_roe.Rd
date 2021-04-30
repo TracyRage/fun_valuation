@@ -13,7 +13,7 @@ get_roe(income, rnd_adj, equity, goodwill, goodwill_portion = 1, rnd_asset)
 
 \item{equity}{A number Current year Equity}
 
-\item{goodwill}{A number goodwill}
+\item{goodwill}{A number Goodwill}
 
 \item{goodwill_portion}{A number Portion of goodwill adjustment (default=0)}
 
@@ -23,7 +23,7 @@ get_roe(income, rnd_adj, equity, goodwill, goodwill_portion = 1, rnd_asset)
 A tibble ROE and the other parameters
 }
 \description{
-Calculate ROE
+Calculate Return on Equity
 }
 \examples{
 ROE <- get_roe(income=333, rnd_adj=555, goodwill=5555)

@@ -17,7 +17,7 @@ get_leases(lease_flow, beyond, cost_debt)
 List of Debt value of leases AND years embedded in lease (5Y)
 }
 \description{
-Capitalize future leases
+Transform future paid leases into debt
 }
 \examples{
 # Paid leases 5Y in the future

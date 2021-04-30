@@ -17,7 +17,7 @@ lease_adjustment(current_lease, debt_value_lease, lease_embedded_years)
 A number of lease adjustment for EBIT
 }
 \description{
-Calculate lease adjustment to EBIT
+Calculate lease adjustment to EBIT (for ROIC calculation)
 }
 \examples{
 See get_leases function output for debt_value_lease and lease_embedded_years

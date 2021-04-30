@@ -15,7 +15,7 @@ get_amortization_2(cash_flows, amortized)
 Amortized or Unamortized portion of R&D
 }
 \description{
-Capitalize R&D (-2 years)
+Capitalize R&D investments (Non-tech service, Ads, Banks, Restaurant, Retail Store etc.)
 }
 \examples{
 # Vector of cash flows
