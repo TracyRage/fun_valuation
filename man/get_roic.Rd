@@ -6,16 +6,16 @@
 \usage{
 get_roic(
   ebit,
-  curr_lease_adj,
-  rnd_adj,
+  curr_lease_adj = 0,
+  rnd_adj = 0,
   eff_tax,
   short_debt,
   long_debt,
   equity,
   goodwill,
   cash,
-  last_lease_debt,
-  rnd_asset,
+  last_lease_debt = 0,
+  rnd_asset = 0,
   goodwill_portion = 0.2,
   cash_portion = 0.2,
   minority = 0
@@ -24,7 +24,7 @@ get_roic(
 \arguments{
 \item{ebit}{A number Current year EBIT}
 
-\item{curr_lease_adj}{A number Lease adjustment to EBIT}
+\item{curr_lease_adj}{A number Lease adjustment to EBIT (lease_adjustment function)}
 
 \item{rnd_adj}{A number R&D adjustment to EBIT}
 
@@ -40,15 +40,19 @@ get_roic(
 
 \item{cash}{A number Cash}
 
-\item{last_lease_debt}{A number Last year capitalized leases}
+\item{last_lease_debt}{A number Last year capitalized leases (present value)}
 
 \item{rnd_asset}{A number The unamortized part of R&D}
 
-\item{goodwill_portion}{A number Part of Goodwill added to Invested capital (default=0.2)}
+\item{goodwill_portion}{A number Part of goodwill added to Invested capital (default=0.2)}
 
 \item{cash_portion}{A number Part of cash added to Invested capital (default=0.2)}
 
-\item{minority}{A number Minority Interest (default=0)}
+\item{minority}{A number Minority interest (default=0)}
+
+\item{current_year_rnd}{A number Current year R&D spending}
+
+\item{amortized_rnd}{A number Amortized portion of R&D}
 }
 \value{
 A tibble ROIC and other parameters
