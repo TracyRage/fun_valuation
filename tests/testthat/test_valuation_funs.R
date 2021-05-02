@@ -140,7 +140,7 @@ test_that("Verify ROIC calculation", {
   long_debt <- 47079
   equity <- 71315
   minority <- 4446
-  goodwill <- 20651
+  goodwill <- 16520
   cash <- 6550
   last_year_lease <- 14134
   # Unamortized portion R&D
@@ -173,4 +173,82 @@ test_that("Verify ROIC calculation", {
                         last_lease_debt = last_year_lease, rnd_asset = 0,
                         minority = minority)$adj_roic), 15)
 
+})
+
+
+# Test get_roe function
+test_that("Verify ROE calculation", {
+  net_income <- 16999
+  rnd_adj <- 361
+  tax_rate <- 0.31
+  equity <- 71315
+  goodwill <- 16521
+  # Unamortized portion R&D
+  rnd_asset <- 4831
+  expect_equal(get_roe(income = net_income, rnd_adj = rnd_adj, equity = equity,
+                       goodwill_portion = 0.2, rnd_asset = rnd_asset,
+                       eff_tax = tax_rate, goodwill = goodwill)$roe, 27)
+
+  expect_equal(get_roe(income = net_income, rnd_adj = rnd_adj, equity = equity,
+                       goodwill_portion = 0.2, rnd_asset = rnd_asset,
+                       eff_tax = tax_rate, goodwill = goodwill)$adj_roe, 25)
+
+  expect_equal(get_roe(income = net_income, rnd_adj = 0, equity = equity,
+                       goodwill_portion = 0.2, rnd_asset = 0,
+                       eff_tax = tax_rate, goodwill = goodwill)$roe, 29)
+
+})
+
+# Calculate bottom-up beta
+test_that("Verify bottom-up beta", {
+  average_beta <- 0.77
+  industry_tax <- 0.0597
+  average_de <- 0.083
+  firm_tax <- 0.16
+  firm_debt <- 13.03
+  firm_equity <- 212.92
+  expect_equal(get_beta(average_beta = average_beta,
+                        industry_tax = industry_tax,
+                        average_de = average_de,
+                        firm_tax = firm_tax,
+                        firm_debt = firm_debt,
+                        firm_equity = firm_equity)$unlevered_beta, 0.71)
+  expect_equal(get_beta(average_beta = average_beta,
+                        industry_tax = industry_tax,
+                        average_de = average_de,
+                        firm_tax = firm_tax,
+                        firm_debt = firm_debt,
+                        firm_equity = firm_equity)$levered_beta, 0.75)
+})
+
+# Calculate Cost of Equity
+test_that("Verift cost of equity", {
+  risk_free <- 0.015
+  beta <- 0.7
+  risk_premium <- 0.041
+  expect_equal(get_cost_equity(risk_free = risk_free,
+                               beta = beta,
+                               risk_premium = risk_premium)$cost_equity, 0.044)
+})
+
+# Calculate Cost of Debt
+test_that("Verify cost of equity", {
+  risk_free <- 0.015
+  company_spread <- 0.01
+  expect_equal(get_cost_debt(risk_free = risk_free,
+                               company_spread = company_spread)$cost_debt, 0.025)
+})
+
+# Calculate Cost of Capital
+test_that("Verify cost of capital", {
+    marginal_tax <- 0.34
+    cost_equity <- 0.107
+    cost_debt <- 0.0929
+    equity <- 11
+    debt <- 2
+    expect_equal(get_cost_capital(marginal_tax = marginal_tax,
+                                  cost_equity = cost_equity,
+                                  cost_debt = cost_debt,
+                                  equity = equity,
+                                  debt = debt)$cost_capital, 0.1)
 })

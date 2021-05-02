@@ -4,7 +4,15 @@
 \alias{get_roe}
 \title{Calculate ROE}
 \usage{
-get_roe(income, rnd_adj, equity, goodwill, goodwill_portion = 1, rnd_asset)
+get_roe(
+  income,
+  rnd_adj = 0,
+  equity,
+  goodwill,
+  goodwill_portion = 0.2,
+  rnd_asset = 0,
+  eff_tax = 0
+)
 }
 \arguments{
 \item{income}{A number Current year income}
@@ -18,6 +26,8 @@ get_roe(income, rnd_adj, equity, goodwill, goodwill_portion = 1, rnd_asset)
 \item{goodwill_portion}{A number Portion of goodwill adjustment (default=0)}
 
 \item{rnd_asset}{A number Unamortized portion of R&D}
+
+\item{eff_tax}{A number Effective tax rate}
 }
 \value{
 A tibble ROE and the other parameters

@@ -217,7 +217,7 @@ get_leases <- function(lease_flow, beyond, cost_debt) {
 #' lease_adj <- lease_adjustment(current_lease, get_leases$debt_value_lease, get_leases$years_embedded)
 #' @export
 lease_adjustment <- function(current_lease, debt_value_lease, lease_embedded_years) {
-  result <- as.integer(current_lease - debt_value_lease / (lease_embedded_years+5))
+  as.integer(current_lease - debt_value_lease / (lease_embedded_years+5))
 }
 
 #' Calculate R&D adjustment to EBIT
@@ -233,7 +233,7 @@ lease_adjustment <- function(current_lease, debt_value_lease, lease_embedded_yea
 #' lease_adj <- rnd_adjustment(current_rnd, amortized_rnd)
 #' @export
 rnd_adjustment <- function(current_rnd, amortized_rnd) {
-  result <- as.integer(current_rnd-amortized_rnd)
+  as.integer(current_rnd-amortized_rnd)
 }
 
 #' Calculate ROIC
@@ -259,6 +259,7 @@ rnd_adjustment <- function(current_rnd, amortized_rnd) {
 #' roic <- get_roic(ebit=2033, curr_lease_adj=56763, eff_tax=0.2, short_debt=333,
 #'                  long_debt=4567, equity=4444, ...)
 #' @export
+#' @importFrom tibble tibble
 get_roic <- function(ebit, curr_lease_adj=0, rnd_adj=0, eff_tax,
                      short_debt, long_debt, equity, goodwill, cash,
                      last_lease_debt=0, rnd_asset=0, goodwill_portion=0.2, cash_portion=0.2,
@@ -281,7 +282,7 @@ get_roic <- function(ebit, curr_lease_adj=0, rnd_adj=0, eff_tax,
   # Calculate adjusted ROIC
   adj_roic <- after_tax_ebit/adj_invested_capital
   # Return ROIC
-  return <- tibble::tibble(ebit=ebit, adj_ebit=adj_ebit, invested_capital=invested_capital,
+  tibble(ebit=ebit, adj_ebit=adj_ebit, invested_capital=invested_capital,
                            after_tax_ebit=after_tax_ebit,
                            adj_invested_capital=adj_invested_capital, roic=round(roic*100, 1),
                            adj_roic=round(adj_roic*100, 1), goodwill_back=goodwill_back,
@@ -296,24 +297,96 @@ get_roic <- function(ebit, curr_lease_adj=0, rnd_adj=0, eff_tax,
 #' @param goodwill A number Goodwill
 #' @param goodwill_portion A number Portion of goodwill adjustment (default=0)
 #' @param rnd_asset A number Unamortized portion of R&D
+#' @param eff_tax A number Effective tax rate
 #' @return A tibble ROE and the other parameters
 #' @examples
 #' ROE <- get_roe(income=333, rnd_adj=555, goodwill=5555)
 #' @export
-get_roe <- function(income, rnd_adj, equity, goodwill, goodwill_portion=1, rnd_asset) {
+#' @importFrom tibble tibble
+get_roe <- function(income, rnd_adj=0, equity, goodwill,
+                    goodwill_portion=0.2, rnd_asset=0,
+                    eff_tax=0) {
   # Calculate goodwill
   goodwill_back = goodwill*goodwill_portion
-  goodwill_adj = goodwill*(1-goodwill_portion)
   # Calculate adjusted net income
-  adj_income <- income + rnd_adj
+  adj_income <- income + rnd_adj + rnd_adj*eff_tax
   # Calculate book value of invested equity
-  book_equity <- equity - goodwill_adj
+  book_equity <- equity - goodwill + rnd_asset + goodwill_back
   # Calculate adjusted book value of equity
   adj_equity <- book_equity + rnd_asset + goodwill_back
-  return <- tibble::tibble(income=income, adj_income=adj_income,
+  tibble(income=income, adj_income=adj_income,
                            equity=equity, adj_equity=adj_equity,
-                           roe=(income/book_equity)*100,
-                           adj_roe=(adj_income/adj_equity)*100,
-                           rnd_adj=rnd_adj, goodwill_back=goodwill_back,
-                           goodwill_adj=goodwill_adj)
+                           roe=round((income/book_equity),2)*100,
+                           adj_roe=round((adj_income/adj_equity),2)*100,
+                           rnd_adj=rnd_adj, goodwill_back=goodwill_back)
+}
+
+#' Calculate Levered Beta / Unlevered beta
+#' @description Calculate unlevered and levered beta
+#' @param average_beta A number Industry average beta
+#' @param industry_tax A number Industry effective tax rate
+#' @param average_de A number Industry average Debt/Equity
+#' @param firm_tax A number Firm effective tax
+#' @param firm_debt A number Firm debt value
+#' @param firm_equity A number Firm equity value
+#' @return Bottom-up beta
+#' @examples
+#' beta <- get_beta(average_beta=0.77, industry_tax=0.05, average_de=0.083, ...)
+#' @export
+#' @importFrom tibble tibble
+get_beta <- function(average_beta, industry_tax, average_de,
+                     firm_tax, firm_debt, firm_equity) {
+  unlevered_beta <- average_beta / (1+(1-industry_tax)*average_de)
+  levered_beta <- unlevered_beta*(1+(1-firm_tax)*(firm_debt/firm_equity))
+  tibble(unlevered_beta = round(unlevered_beta,2),
+                   levered_beta = round(levered_beta,2))
+}
+
+#' Calculate Cost of Equity
+#' @description Calculate Cost of Equity
+#' @param risk_free A number Risk free rate
+#' @param beta A number Bottom-up beta
+#' @param risk_premium A number Risk premium
+#' @return Cost of Equity
+#' @export
+#' @examples
+#' cost_equity <- get_cost_equity(risk_free=0.015, beta=0.71, rick_premium=0.041)
+#' @importFrom tibble tibble
+get_cost_equity <- function(risk_free, beta, risk_premium) {
+  cost_equity <- risk_free + beta*risk_premium
+  tibble(risk_free=risk_free, beta=beta,
+         risk_premium=risk_premium, cost_equity=round(cost_equity,3))
+}
+
+#' Calculate Cost of Debt
+#' @description Calculate Cost of Debt based on interest coverage rate (EBIT/Interest expense)
+#' @param risk_free A number Risk free rate
+#' @param company_spread A number Firm company spread
+#' @param country_spread A number Country spread
+#' @return Cost of Debt
+#' @export
+#' @examples
+#' cost_equity <- get_cost_debt(risk_free=0.015, company_spread=0.01)
+#' @importFrom tibble tibble
+get_cost_debt <- function(risk_free, company_spread, country_spread=0) {
+  cost_debt <- risk_free + company_spread + country_spread
+  tibble(risk_free=risk_free, company_spread=company_spread, cost_debt = round(cost_debt, 3))
+}
+
+#' Calculate Cost of Capital
+#' @description Calculate Cost of Capital
+#' @param marginal_tax A number Marginal tax rate
+#' @param cost_equity A number Cost of equity
+#' @param cost_debt A number Cost of debt
+#' @param equity A number Firm equity
+#' @param debt A number Firm debt
+#' @return Cost of Debt
+#' @export
+#' @examples
+#' cost_equity <- get_cost_debt(cost_equity=0.107, cost_debt=0.0929, ...)
+#' @importFrom tibble tibble
+get_cost_capital <- function(marginal_tax, cost_equity,
+                             cost_debt, equity, debt) {
+  cost_capital <- cost_equity*(equity/(debt+equity)) + cost_debt*(1-marginal_tax)*(debt/(debt+equity))
+  tibble(cost_equity=cost_equity, cost_debt=cost_debt, cost_capital=round(cost_capital,4))
 }
