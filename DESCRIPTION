@@ -4,7 +4,7 @@ Version: 0.1
 Authors@R: 
     person(given = "Alexei",
            family = "Remizovschi",
-           role = c("aut", "cre"),
+           role = "cre",
            email = "alexei@remizovschi.com"
 Description: fun.valuation represents a set of tools aimed to facilitate fundamental
              analysis of publicly traded companies.
