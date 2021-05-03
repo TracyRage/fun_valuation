@@ -16,11 +16,9 @@ knitr::opts_chunk$set(
 # fun.valuation
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/TracyRage/fun_valuation/workflows/R-CMD-check/badge.svg)](https://github.com/TracyRage/fun_valuation/actions)
 <!-- badges: end -->
 
-## Installation
+fun.valuation represents a set of tools aimed to facilitate fundamental
+             analysis of publicly traded companies.
 
-```{r}
-devtools::install_github("fun.valuation")
-```
+

@@ -144,6 +144,42 @@ get_amortization_10 <- function(cash_flows, amortized) {
 }
 
 
+#' Capitalize Acquisition (-5 years)
+#' @description Capitalize acquisition investments
+#' @param cashflows A list of numbers
+#' @param amortized Boolean
+#' @return Amortized or Unamortized portion of Acquisition
+#' @examples
+#' # Vector of cash flows
+#' cash_flow <- list(current=123, y1=333, y2=444, y3=444, y4=555, y5=666)
+#' # Calculate unamortized portion of Acquisition
+#' unamortized_rnd <- get_acquisition(cash_flow, amortized=FALSE)
+#' # Calculate amortized portion of Acquisition
+#' amortized_rnd <- get_acquisition(cash_flow)
+#' @export
+get_acquisition <- function(cash_flows, amortized=TRUE) {
+  # Calculate unamortized portion
+  if (amortized == FALSE) {
+    un_y5 <- cash_flows$y5 * 0
+    un_y4 <- cash_flows$y4 * (1/5)
+    un_y3 <- cash_flows$y3 * (2/5)
+    un_y2 <- cash_flows$y2 * (3/5)
+    un_y1 <- cash_flows$y1 * (4/5)
+    un_current <- cash_flows$current * 1
+    total = as.integer(un_current + un_y1 + un_y2 + un_y3 + un_y4 + un_y5)
+    # Calculate amortized portion
+  } else {
+    am_y5 <- cash_flows$y5 * (1/5)
+    am_y4 <- cash_flows$y4 * (1/5)
+    am_y3 <- cash_flows$y3 * (1/5)
+    am_y2 <- cash_flows$y2 * (1/5)
+    am_y1 <- cash_flows$y1 * (1/5)
+    current <- cash_flows$current * 0
+    total <- as.integer(am_y5 + am_y4 + am_y3 + am_y2 + am_y1 + current)
+
+  }
+}
+
 #' Capitalize future leases
 #' @description Transform future paid leases into debt
 #' @param lease_flow A list of numbers
@@ -389,4 +425,61 @@ get_cost_capital <- function(marginal_tax, cost_equity,
                              cost_debt, equity, debt) {
   cost_capital <- cost_equity*(equity/(debt+equity)) + cost_debt*(1-marginal_tax)*(debt/(debt+equity))
   tibble(cost_equity=cost_equity, cost_debt=cost_debt, cost_capital=round(cost_capital,4))
+}
+
+#' Calculate Net CapEx
+#' @description Calculate and adjust Net Capital Expenditure
+#' @param capex A number Current year capital expenditure
+#' @param depreciation A number Depreciation
+#' @param rnd_expense A number Current year R&D expense
+#' @param rnd_amortization A number R&D amortization
+#' @param acquisition A number Acquisition
+#' @return Net CapEx
+#' @export
+#' @examples
+#' get_net_capex(capex=584, depreciation=484, rnd_expense=1594, rnd_amortization=485, acquisition=2516, ...)
+#' @importFrom tibble tibble
+get_net_capex <- function(capex, depreciation, rnd_expense, rnd_amortization,
+                          acquisition, acquisition_amortization=0) {
+  net_capex <- capex - depreciation + rnd_expense - rnd_amortization + acquisition - acquisition_amortization
+  tibble(net_capex = net_capex, depreciation=depreciation, rnd_expense=rnd_expense,
+         rnd_amortization=rnd_amortization, acquisition=acquisition,
+         acquisition_amortization = acquisition_amortization)
+}
+
+#' Calculate working capital
+#' @description Calculate working capital
+#' @param inventory A number Inventory
+#' @param accounts_receive A number Accounts receivable
+#' @param accounts_payable A number Accounts payable
+#' @return Working capital
+#' @export
+#' @examples
+#' get_working_cap(inventory=40, account_receive=80, accounts_payable=40)
+#' @importFrom tibble tibble
+get_working_cap <- function(inventory, accounts_receive, accounts_payable) {
+  working_capital <- (inventory + accounts_receive) - accounts_payable
+  if (working_capital < 0) {
+    working_capital <- 0
+    tibble(inventory=inventory, accounts_receivable=accounts_receive,
+           accounts_payable=accounts_payable, working_capital=working_capital)
+  }
+  else {
+    tibble(inventory=inventory, accounts_receivable=accounts_receive,
+           accounts_payable=accounts_payable, working_capital=working_capital)
+  }
+}
+
+#' Calculate Reinvestment Rate
+#' @description Calculate Reinvestment Rate (w/ adjusted EBIT)
+#' @param net_capex A number Net Capital Expenditure
+#' @param working_capital A number Change in Working Capital
+#' @param adj_ebit A number Adjusted EBIT
+#' @export
+#' @examples
+#' get_rr(net_capex=100, working_capital=100, after_tax_ebit=200)
+#' @importFrom tibble tibble
+get_rr <- function(net_capex, working_capital, after_tax_ebit) {
+  rr <- (net_capex + working_capital)/after_tax_ebit
+  tibble(reinvestment_rate = rr, after_tax_ebit = after_tax_ebit, working_capital = working_capital)
 }

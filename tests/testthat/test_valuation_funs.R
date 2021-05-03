@@ -252,3 +252,50 @@ test_that("Verify cost of capital", {
                                   equity = equity,
                                   debt = debt)$cost_capital, 0.1)
 })
+
+# Test get_acquisition function
+test_that("Verify amortized and amortized acquisition (5Y)", {
+  cash_flows <- list(current=9811, y1=9043, y2=8714, y3=9010, y4=6500, y5=4000)
+  # Test amortized value
+  expect_equal(get_acquisition(
+    cash_flows = cash_flows,
+    amortized = TRUE
+  ), 7453)
+  # Test unamortized value
+  expect_equal(get_acquisition(
+    cash_flows = cash_flows,
+    amortized = FALSE
+  ), 27177)
+})
+
+# Test get_net_capex
+test_that("Verify net CapEx", {
+  capex <- 584
+  depreciation <- 486
+  rnd_expense <- 1594
+  rnd_amortization <- 485
+  acquisition <- 2516
+  expect_equal(get_net_capex(capex = capex, depreciation = depreciation,
+                             rnd_expense = rnd_expense, rnd_amortization = rnd_amortization,
+                             acquisition = acquisition)$net_capex, 3723)
+})
+
+# Test get_working_cap
+test_that("Verify working capital", {
+  inventory <- 50
+  accounts_receive <- 50
+  accounts_payable <- 60
+  expect_equal(get_working_cap(inventory = inventory, accounts_receive = accounts_receive,
+                               accounts_payable = accounts_payable)$working_capital, 40)
+  expect_equal(get_working_cap(inventory = inventory, accounts_receive = accounts_receive,
+                               accounts_payable = 200)$working_capital, 0)
+})
+
+# Test get_rr
+test_that("Verify reinvestment rate", {
+  after_tax_ebit <- 200
+  working_capital <- 50
+  net_capex <- 50
+  expect_equal(get_rr(net_capex = net_capex, working_capital = working_capital,
+                      after_tax_ebit = after_tax_ebit)$reinvestment_rate, 0.5)
+})
