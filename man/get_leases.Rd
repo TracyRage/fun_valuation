@@ -25,7 +25,7 @@ cash_flow <- list(y1=333, y2=444, y3=444, y4=555, y5=666)
 # Paid leases beyond 5Y
 beyond <- 45555
 # Indicate the cost of debt (firm rating OR synthetic rating)
-cost_debt <- 0.05 (5\%)
+cost_debt <- 0.05
 # Capitalize future leases
 cap_leases <- get_leases(cash_flow, beyond, cost_debt)
 # Capitalized leases

@@ -104,7 +104,7 @@ get_amortization_5 <- function(cash_flows, amortized) {
 #' @return Amortized or Unamortized portion of R&D
 #' @examples
 #' # Vector of cash flows
-#' cash_flow <- list(current=123, y1=333, y2=444, y3=444, y4=555, y5=666, ...)
+#' cash_flow <- list(current=123, y1=333, y2=444, y3=444, y4=555, y5=666)
 #' # Calculate unamortized portion of R&D
 #' unamortized_rnd <- get_amortization_10(cash_flow, amortized=FALSE)
 #' # Calculate amortized portion of R&D
@@ -192,7 +192,7 @@ get_acquisition <- function(cash_flows, amortized=TRUE) {
 #' # Paid leases beyond 5Y
 #' beyond <- 45555
 #' # Indicate the cost of debt (firm rating OR synthetic rating)
-#' cost_debt <- 0.05 (5%)
+#' cost_debt <- 0.05
 #' # Capitalize future leases
 #' cap_leases <- get_leases(cash_flow, beyond, cost_debt)
 #' # Capitalized leases
@@ -482,4 +482,86 @@ get_working_cap <- function(inventory, accounts_receive, accounts_payable) {
 get_rr <- function(net_capex, working_capital, after_tax_ebit) {
   rr <- (net_capex + working_capital)/after_tax_ebit
   tibble(reinvestment_rate = rr, after_tax_ebit = after_tax_ebit, working_capital = working_capital)
+}
+
+#' Calculate Expected Growth rate (stable ROIC)
+#' @description Calculate expected growth rate (w/ stable ROIC across years)
+#' @param reinvestment_rate A number Reinvestment rate
+#' @param roic A number Return on Capital
+#' @export
+#' @examples
+#' get_stable_growth(reinvestment_rate=0.4, roic=0.2)
+#' @importFrom tibble tibble
+get_stable_growth <- function(reinvestment_rate, roic) {
+  stable_growth <- reinvestment_rate*roic
+  tibble(stable_growth=stable_growth, reinvestment_rate=reinvestment_rate,
+         roic=roic)
+}
+
+#' Calculate Expected Growth rate (changing ROIC)
+#' @description Calculate expected growth rate (w/ changing ROIC across years)
+#' @param reinvestment_rate A number Reinvestment rate
+#' @param roic_initial A number Current year Return on Capital
+#' @param roic_target A number Target Return on Capital
+#' @export
+#' @examples
+#' get_stable_growth(reinvestment_rate=0.4, roic_initial=0.2, roic_target=0.6, year_target=5)
+#' @importFrom tibble tibble
+get_dynamic_growth <- function(reinvestment_rate, roic_initial, roic_target, years_target=5) {
+  formula_1 <- roic_target*reinvestment_rate
+  formula_2 <- (1+(roic_target-roic_initial)/roic_initial)^(1/years_target)-1
+  growth <- formula_1 + formula_2
+  tibble(growth=round(growth, 2), reinvestment_rate=reinvestment_rate,
+         roic_initial=roic_initial, roic_target=roic_target, years_target=years_target)
+}
+
+#' Calculate Free Cash Flow to Firm
+#' @description Calculate FCFF (w/ After Tax EBIT)
+#' @param after_tax_ebit A number After-Tax EBIT
+#' @param depreciation A number Depreciation
+#' @param capex A number Capital Expenditure
+#' @param working_capital A number Change in Working Capital
+#' @export
+#' @examples get_fcff(after_tax_ebit=2481, depreciation=1914, capex=1659, working_capital=1119)
+#' @importFrom tibble tibble
+get_fcff <- function(after_tax_ebit, depreciation, capex, working_capital) {
+  fcff <- after_tax_ebit + depreciation - capex - working_capital
+  tibble(fcff=fcff, after_tax_ebit=after_tax_ebit,
+         capex=capex, working_capital=working_capital,
+         depreciation=depreciation)
+}
+
+#' Calculate Value of Operating Assets
+#' @description Calculate Value of Operating Assets
+#' @param fcff A number Free Cash Flow to Firm
+#' @param wacc A number Cost of Capital
+#' @param growth A number Estimate growth
+#' @export
+#' @examples
+#' get_operating_asses(fcff=1617, wacc=12.05, growth=0.05)
+#' @importFrom tibble tibble
+get_operating_assets <- function(fcff, wacc, growth) {
+  value_operating_assets <- fcff*(1+growth)/(wacc-growth)
+  tibble(fcff=fcff, wacc=wacc, growth=growth, value_operating_assets=round(value_operating_assets))
+}
+
+#' Calculate Terminal Value
+#' @description Calculate Value of Terminal Value
+#' @param after_tax_ebit A number After-tax EBIT
+#' @param growth A number Estimate growth
+#' @param risk_free A number terminal growth rate
+#' @param roic A number Return of Capital
+#' @param wacc A number Cost of Capital
+#' @export
+#' @examples
+#' get_terminal_value(after_tax_ebit=1300, growth=0.06, wacc=0.1, risk_free=0.03)
+#' @importFrom tibble tibble
+get_terminal_value <- function(after_tax_ebit, growth, wacc, risk_free) {
+  # Terminal EBIT at year 6
+  ebit_year_five <- round(after_tax_ebit*(1+growth)^5)
+  terminal_ebit <- round(ebit_year_five*(1+risk_free))
+  reinvestment_rate <- 1 - (risk_free / wacc)
+  terminal_value <- terminal_ebit*reinvestment_rate/(wacc-risk_free)
+  tibble(after_tax_ebit=after_tax_ebit, terminal_ebit=terminal_ebit,
+         growth=risk_free, wacc=wacc, terminal_value=round(terminal_value))
 }

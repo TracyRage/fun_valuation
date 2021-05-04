@@ -299,3 +299,57 @@ test_that("Verify reinvestment rate", {
   expect_equal(get_rr(net_capex = net_capex, working_capital = working_capital,
                       after_tax_ebit = after_tax_ebit)$reinvestment_rate, 0.5)
 })
+
+# Test get_stable_growth
+test_that("Verify stable growth", {
+  reinvestment_rate <- 0.2
+  roic <- 0.15
+  expect_equal(get_stable_growth(reinvestment_rate = reinvestment_rate, roic = roic)$stable_growth,
+               0.03)
+})
+
+# Test get_dynamic_growth
+test_that("Verify dynamic growth", {
+  reinvestment_rate <-  0.5299
+  roic_initial <-  0.1218
+  roic_target <-  0.1722
+  years_target <-  5
+  expect_equal(get_dynamic_growth(reinvestment_rate = reinvestment_rate,
+                                  roic_initial = roic_initial,
+                                  roic_target = roic_target,
+                                  years_target = years_target)$growth, 0.16)
+})
+
+# Test get_fcff
+test_that("Verify free cash flow to firm", {
+  after_tax_ebit <- 2481
+  capex <- 1659
+  depreciation <- 1914
+  working_capital <- 1119
+  expect_equal(get_fcff(capex = capex,
+                        working_capital = working_capital,
+                        depreciation = depreciation,
+                        after_tax_ebit = after_tax_ebit)$fcff, 1617)
+})
+
+# Test get_operating_assets
+test_that("Verify value of operating assests", {
+  fcff <- 1617
+  wacc <- 0.1205
+  growth <- 0.0546
+  expect_equal(get_operating_assets(fcff=fcff, wacc=wacc, growth = growth)$value_operating_assets,
+               25877)
+})
+
+# Test get_terminal_value
+test_that("Verify terminal value", {
+  after_tax_ebit <- 3474.9
+  growth <- 0.043
+  risk_free_rate <- 0.03
+  roic <- 0.1075
+  wacc <- 0.0674
+  expect_equal(get_terminal_value(after_tax_ebit = after_tax_ebit,
+                                  risk_free = risk_free_rate,
+                                  wacc = wacc,
+                                  growth = growth)$terminal_value, 65549)
+})
