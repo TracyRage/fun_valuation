@@ -19,7 +19,7 @@ get_dynamic_growth(
 \item{roic_target}{A number Target Return on Capital}
 }
 \description{
-Calculate expected growth rate (w/ changing ROIC across years)
+Calculate expected growth rate (w/ changing ROIC across years), used in case of efficiency claim.
 }
 \examples{
 get_stable_growth(reinvestment_rate=0.4, roic_initial=0.2, roic_target=0.6, year_target=5)

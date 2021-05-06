@@ -7,9 +7,11 @@
 get_net_capex(
   capex,
   depreciation,
-  rnd_expense,
-  rnd_amortization,
-  acquisition,
+  rnd_expense = 0,
+  rnd_amortization = 0,
+  acquisition = 0,
+  lease_last_year = 0,
+  lease_current_year = 0,
   acquisition_amortization = 0
 )
 }
@@ -23,6 +25,12 @@ get_net_capex(
 \item{rnd_amortization}{A number R&D amortization}
 
 \item{acquisition}{A number Acquisition}
+
+\item{lease_last_year}{A number NPV of last year leases}
+
+\item{lease_current_year}{A number NPV of current leases}
+
+\item{acquisition_amortization}{A number Acquisition amortization}
 }
 \value{
 Net CapEx

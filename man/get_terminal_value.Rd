@@ -4,22 +4,20 @@
 \alias{get_terminal_value}
 \title{Calculate Terminal Value}
 \usage{
-get_terminal_value(after_tax_ebit, growth, wacc, risk_free)
+get_terminal_value(ebit_year_five, stable_growth, wacc, roic)
 }
 \arguments{
-\item{after_tax_ebit}{A number After-tax EBIT}
+\item{ebit_year_five}{A number After-tax EBIT year 5}
 
-\item{growth}{A number Estimate growth}
+\item{stable_growth}{A number Growth (Risk-free Rate)}
 
 \item{wacc}{A number Cost of Capital}
-
-\item{risk_free}{A number terminal growth rate}
 
 \item{roic}{A number Return of Capital}
 }
 \description{
-Calculate Value of Terminal Value
+Calculate Value of Terminal Value (2-stage growth)
 }
 \examples{
-get_terminal_value(after_tax_ebit=1300, growth=0.06, wacc=0.1, risk_free=0.03)
+get_terminal_value(after_tax_ebit=1300, roic=0.046, wacc=0.1, stable_growth=0.03)
 }

@@ -4,18 +4,18 @@
 \alias{get_operating_assets}
 \title{Calculate Value of Operating Assets}
 \usage{
-get_operating_assets(fcff, wacc, growth)
+get_operating_assets(npv_fcff, terminal_value, wacc)
 }
 \arguments{
-\item{fcff}{A number Free Cash Flow to Firm}
+\item{npv_fcff}{A number Free Cash Flow to Firm}
+
+\item{terminal_value}{A number Terminal Value}
 
 \item{wacc}{A number Cost of Capital}
-
-\item{growth}{A number Estimate growth}
 }
 \description{
-Calculate Value of Operating Assets
+Calculate Value of Operating Assets (2-stage growth)
 }
 \examples{
-get_operating_asses(fcff=1617, wacc=12.05, growth=0.05)
+get_operating_asses(npv_fcff=111, terminal_value=222, wacc=0.065)
 }

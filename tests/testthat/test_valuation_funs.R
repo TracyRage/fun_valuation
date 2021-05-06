@@ -326,30 +326,55 @@ test_that("Verify free cash flow to firm", {
   capex <- 1659
   depreciation <- 1914
   working_capital <- 1119
-  expect_equal(get_fcff(capex = capex,
+  wacc <- 0.1205
+  growth <- 0.0546
+  expect_equal(get_stable_operating_assets(capex = capex,
                         working_capital = working_capital,
                         depreciation = depreciation,
-                        after_tax_ebit = after_tax_ebit)$fcff, 1617)
+                        after_tax_ebit = after_tax_ebit,
+                        growth = growth,
+                        wacc = wacc)$fcff, 1617)
+  expect_equal(get_stable_operating_assets(capex = capex,
+                        working_capital = working_capital,
+                        depreciation = depreciation,
+                        after_tax_ebit = after_tax_ebit,
+                        growth = growth,
+                        wacc = wacc)$value_operating_assets, 25877)
 })
 
 # Test get_operating_assets
 test_that("Verify value of operating assests", {
-  fcff <- 1617
-  wacc <- 0.1205
-  growth <- 0.0546
-  expect_equal(get_operating_assets(fcff=fcff, wacc=wacc, growth = growth)$value_operating_assets,
-               25877)
+  npv_fcff <- 9733
+  wacc <- 0.0674
+  terminal_value <- 65597
+  expect_equal(get_operating_assets(npv_fcff=npv_fcff,
+                                    wacc=wacc,
+                                    terminal_value = terminal_value)$value_operating_assets,
+               57075)
 })
 
 # Test get_terminal_value
 test_that("Verify terminal value", {
-  after_tax_ebit <- 3474.9
-  growth <- 0.043
-  risk_free_rate <- 0.03
-  roic <- 0.1075
+  after_tax_ebit <- 4289
+  stable_growth <- 0.03
+  roic <- 0.0674
   wacc <- 0.0674
-  expect_equal(get_terminal_value(after_tax_ebit = after_tax_ebit,
-                                  risk_free = risk_free_rate,
-                                  wacc = wacc,
-                                  growth = growth)$terminal_value, 65549)
+  expect_equal(get_terminal_value(ebit_year_five = after_tax_ebit,
+                                  stable_growth = stable_growth,
+                                  roic = roic,
+                                  wacc = wacc)$terminal_value, 65549)
+})
+
+# Test get_cash_flow
+test_that("Verify NPV", {
+  after_tax_ebit <- 3474.9
+  reinvestment_rate <- 0.4
+  time_period <- c(1,2,3,4,5)
+  wacc <- 0.0674
+  growth <- 0.043
+  expect_equal(get_cash_flow(after_tax_ebit = after_tax_ebit,
+                             reinvestment_rate = reinvestment_rate,
+                             time_period = time_period,
+                             wacc = wacc,
+                             growth = growth)$fcff_npv, 9731)
 })
