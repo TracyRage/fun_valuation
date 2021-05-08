@@ -571,7 +571,7 @@ get_terminal_value <- function(ebit_year_five, stable_growth, wacc, roic) {
   reinvestment_rate <- 1 - (stable_growth / roic)
   # Calculate Terminal Value
   terminal_value <- terminal_ebit*reinvestment_rate/(wacc-stable_growth)
-  tibble(after_tax_ebit=after_tax_ebit, terminal_ebit=terminal_ebit,
+  tibble(terminal_ebit=terminal_ebit,
          stable_growth=stable_growth, wacc=wacc, terminal_value=round(terminal_value))
 }
 
@@ -618,3 +618,208 @@ get_cash_flow <- function(after_tax_ebit, reinvestment_rate, time_period, wacc, 
   list(ebit_flow=ebit_flow, fcff_flow=fcff_flow, fcff_npv = round(fcff_npv), ebit_year_five=round(ebit_flow_5))
 
 }
+
+#' Calculate growth firm cash flows
+#' @description Calculate After-tax EBIT and FCFF flows and NPV (high growth firm)
+#' @param revenue A number Current year revenues
+#' @param initial_margin A number Current year operating margin
+#' @param final_margin A number Final year operating margin
+#' @param revenue_growth_trend A list of numbers Revenue growth next 10 years
+#' @param ebit A number Current year EBIT
+#' @param marginal_tax A number Marginal tax (industry specific)
+#' @param depreciation A number Depreciation current year
+#' @param capex A number CapEx current year
+#' @param working_capital A number Change in working capital current year
+#' @param nol A number Net Operating Losses
+#' @export
+#' @importFrom tibble tibble
+get_growth_flow <- function(revenue,
+                            revenue_growth_trend,
+                            initial_margin,
+                            final_margin,
+                            tax_margin,
+                            ebit,
+                            nol) {
+
+  # Calculate revenues the next 10Y
+  revenue_initial <- revenue
+  revenues_y1 <- round(revenue*(1+revenue_growth_trend$y1), 0)
+  revenues_y2 <- round(revenues_y1*(1+revenue_growth_trend$y2), 0)
+  revenues_y3 <- round(revenues_y2*(1+revenue_growth_trend$y3), 0)
+  revenues_y4 <- round(revenues_y3*(1+revenue_growth_trend$y4), 0)
+  revenues_y5 <- round(revenues_y4*(1+revenue_growth_trend$y5), 0)
+  revenues_y6 <- round(revenues_y5*(1+revenue_growth_trend$y6), 0)
+  revenues_y7 <- round(revenues_y6*(1+revenue_growth_trend$y7), 0)
+  revenues_y8 <- round(revenues_y7*(1+revenue_growth_trend$y8), 0)
+  revenues_y9 <- round(revenues_y8*(1+revenue_growth_trend$y9), 0)
+  revenues_y10 <- round(revenues_y9*(1+revenue_growth_trend$y10), 0)
+  revenues_10_years <- c(initial = revenue_initial,
+                         y1=revenues_y1,
+                            y2=revenues_y2,
+                            y3=revenues_y3,
+                            y4=revenues_y4,
+                            y5=revenues_y5,
+                            y6=revenues_y6,
+                            y7=revenues_y7,
+                            y8=revenues_y8,
+                            y9=revenues_y9,
+                            y10=revenues_y10)
+
+  # Calculate % Margins the next 10Y
+  margin_initial <- initial_margin
+  margin_y1 <- round(((initial_margin*1.5)/2.5+final_margin/2.5),3)
+  margin_y2 <- round(((margin_y1*1.5)/2.5+final_margin/2.5),3)
+  margin_y3 <- round(((margin_y2*1.5)/2.5+final_margin/2.5),3)
+  margin_y4 <- round(((margin_y3*1.5)/2.5+final_margin/2.5),3)
+  margin_y5 <- round(((margin_y4*1.5)/2.5+final_margin/2.5),3)
+  margin_y6 <- round(((margin_y5*1.5)/2.5+final_margin/2.5),3)
+  margin_y7 <- round(((margin_y6*1.5)/2.5+final_margin/2.5),3)
+  margin_y8 <- round(((margin_y7*1.5)/2.5+final_margin/2.5),3)
+  margin_y9 <- round(((margin_y8*1.5)/2.5+final_margin/2.5),3)
+  margin_y10 <- round(((margin_y9*1.5)/2.5+final_margin/2.5),3)
+  margins_10_years <- c(margin_initial = margin_initial,
+                        y1=margin_y1,
+                           y2=margin_y2,
+                           y3=margin_y3,
+                           y4=margin_y4,
+                           y5=margin_y5,
+                           y6=margin_y6,
+                           y7=margin_y7,
+                           y8=margin_y8,
+                           y9=margin_y9,
+                           y10=margin_y10)
+
+  # Calculate EBIT
+  ebit_initial <- ebit
+  ebit_y1 <- revenues_y1*margin_y1
+  ebit_y2 <- revenues_y2*margin_y2
+  ebit_y3 <- revenues_y3*margin_y3
+  ebit_y4 <- revenues_y4*margin_y4
+  ebit_y5 <- revenues_y5*margin_y5
+  ebit_y6 <- revenues_y6*margin_y6
+  ebit_y7 <- revenues_y7*margin_y7
+  ebit_y8 <- revenues_y8*margin_y8
+  ebit_y9 <- revenues_y9*margin_y9
+  ebit_y10 <- revenues_y10*margin_y10
+  ebit_10_years <- c(ebit_initial=ebit_initial,
+                     y1=ebit_y1,
+                     y2=ebit_y2,
+                     y3=ebit_y3,
+                     y4=ebit_y4,
+                     y5=ebit_y5,
+                     y6=ebit_y6,
+                     y7=ebit_y7,
+                     y8=ebit_y8,
+                     y9=ebit_y9,
+                     y10=ebit_y10)
+
+  # Calculate NOL
+  nol_initial <- nol
+  nol_y1 <- round(get_nol(nol=nol_initial, ebit = ebit_y1),0)
+  nol_y2 <- round(get_nol(nol=nol_y1, ebit = ebit_y2),0)
+  nol_y3 <- round(get_nol(nol=nol_y2, ebit = ebit_y3),0)
+  nol_y4 <- round(get_nol(nol=nol_y3, ebit = ebit_y4),0)
+  nol_y5 <- round(get_nol(nol=nol_y4, ebit = ebit_y5),0)
+  nol_y6 <- round(get_nol(nol=nol_y5, ebit = ebit_y6),0)
+  nol_y7 <- round(get_nol(nol=nol_y6, ebit = ebit_y7),0)
+  nol_y8 <- round(get_nol(nol=nol_y7, ebit = ebit_y8),0)
+  nol_y9 <- round(get_nol(nol=nol_y8, ebit = ebit_y9),0)
+  nol_y10 <- round(get_nol(nol=nol_y9, ebit = ebit_y10),0)
+  nol_10_years <- c(nol_initial=nol_initial,
+                    y1=nol_y1,
+                    y2=nol_y2,
+                    y3=nol_y3,
+                    y4=nol_y4,
+                    y5=nol_y5,
+                    y6=nol_y6,
+                    y7=nol_y7,
+                    y8=nol_y8,
+                    y9=nol_y9,
+                    y10=nol_y10)
+
+  # Calculate taxes
+  tax_y1 <- get_growth_taxes(ebit=ebit_y1, last_nol=nol,
+                           marginal_tax = tax_margin)
+
+  tax_y2 <- get_growth_taxes(ebit=ebit_y2, last_nol=nol_y1,
+                           marginal_tax = tax_margin)
+
+  tax_y3 <- get_growth_taxes(ebit=ebit_y3, last_nol=nol_y2,
+                           marginal_tax = tax_margin)
+
+  tax_y4 <- get_growth_taxes(ebit=ebit_y4, last_nol=nol_y3,
+                           marginal_tax = tax_margin)
+
+  tax_y5 <- get_growth_taxes(ebit=ebit_y5, last_nol=nol_y4,
+                           marginal_tax = tax_margin)
+
+  tax_y6 <- get_growth_taxes(ebit=ebit_y6, last_nol=nol_y5,
+                           marginal_tax = tax_margin)
+
+  tax_y7 <- get_growth_taxes(ebit=ebit_y7, last_nol=nol_y6,
+                           marginal_tax = tax_margin)
+
+  tax_y8 <- get_growth_taxes(ebit=ebit_y8, last_nol=nol_y7,
+                           marginal_tax = tax_margin)
+
+  tax_y9 <- get_growth_taxes(ebit=ebit_y9, last_nol=nol_y8,
+                           marginal_tax = tax_margin)
+
+  tax_y10 <- get_growth_taxes(ebit=ebit_y10, last_nol=nol_y9,
+                           marginal_tax = tax_margin)
+
+  tax_10_years <- c(initial_tax=0, y1=tax_y1, y2=tax_y2, y3=tax_y3,
+                    y4=tax_y4, y5=tax_y5, y6=tax_y6, y7=tax_y7, y8=tax_y8,
+                    y9=tax_y9, y10=tax_y10)
+
+
+  tibble(revenues_10_years = revenues_10_years,
+       margins_10_years = margins_10_years,
+       ebit_10_years = ebit_10_years,
+       tax_10_years = tax_10_years,
+       nol_10_years = nol_10_years)
+
+}
+
+#' Helper function for get_growth_flow
+#' @description Calculate NOL
+#' @param nol A number NOL
+#' @param ebit A number EBIT
+#' @export
+get_nol <- function(nol, ebit) {
+  if (ebit<nol) {
+    nol <- nol-ebit
+  } else {
+   nol <- 0
+  }
+}
+
+#' Helper function for get_growth_flow
+#' @description Calculate Taxes paid
+#' @param ebit A number EBIT
+#' @param last_nol A number Last year NOL
+#' @param marginal_tax A number Marginal tax (industry)
+#' @export
+get_growth_taxes <- function(ebit, last_nol, marginal_tax) {
+  if (ebit < 0) {
+    tax_paid <- 0
+   } else if (ebit < last_nol) {
+      tax_paid <- 0
+   } else if (ebit > last_nol) {
+      tax_paid <- (ebit-last_nol)*marginal_tax
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
