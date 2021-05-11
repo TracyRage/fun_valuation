@@ -5,8 +5,7 @@ Authors@R: person(given = "Alexei",
            family = "Remizovschi",
            role = c("aut", "cre"),
            email = "alexei@remizovschi.com")
-Description: "fun.valuation represents a set of tools aimed to facilitate fundamental
-             analysis of publicly traded companies.""
+Description: Package fun.valuation represents a set of tools aimed to facilitate fundamental analysis of publicly traded companies.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -15,5 +14,4 @@ RoxygenNote: 7.1.1
 Config/testthat/edition: 3
 Imports: 
     FinancialMath,
-    testthat,
     tibble
