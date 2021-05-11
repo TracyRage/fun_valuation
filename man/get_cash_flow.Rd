@@ -7,16 +7,22 @@
 get_cash_flow(after_tax_ebit, reinvestment_rate, time_period, wacc, growth)
 }
 \arguments{
-\item{after_tax_ebit}{A number After-tax EBIT}
+\item{after_tax_ebit}{\strong{Number} After-tax EBIT}
 
-\item{reinvestment_rate}{A number Reinvestment rate}
+\item{reinvestment_rate}{\strong{Number} Reinvestment rate}
 
-\item{time_period}{A vector of numbers DCF years}
+\item{time_period}{\strong{Vector of numbers} DCF years}
 
-\item{wacc}{A number Cost of Capital}
+\item{wacc}{\strong{Number} Cost of Capital}
 
-\item{growth}{A number Estimated growth}
+\item{growth}{\strong{Number} Estimated growth}
+}
+\value{
+\strong{List of numbers} NPV FCFF, EBIT 5Y, etc.
 }
 \description{
 Calculate After-tax EBIT and FCFF flows and NPV (2-stage growth)
+}
+\examples{
+cash_flows <- get_cash_flow(after_tax_ebit=333, reinvestment_rate=0.3, time_period=c(1,2,3,4,5), wacc=0.08, growth=0.03)
 }

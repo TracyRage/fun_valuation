@@ -7,9 +7,12 @@
 get_nol(nol, ebit)
 }
 \arguments{
-\item{nol}{A number NOL}
+\item{nol}{\strong{Number} NOL}
 
-\item{ebit}{A number EBIT}
+\item{ebit}{\strong{Number} EBIT}
+}
+\value{
+\strong{Number}
 }
 \description{
 Calculate NOL

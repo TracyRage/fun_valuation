@@ -323,23 +323,20 @@ test_that("Verify dynamic growth", {
 # Test get_fcff
 test_that("Verify free cash flow to firm", {
   after_tax_ebit <- 2481
-  capex <- 1659
-  depreciation <- 1914
-  working_capital <- 1119
+  net_capex <- 800
+  working_capital <- 500
   wacc <- 0.1205
   growth <- 0.0546
-  expect_equal(get_stable_operating_assets(capex = capex,
+  expect_equal(get_stable_operating_assets(net_capex = net_capex,
                         working_capital = working_capital,
-                        depreciation = depreciation,
                         after_tax_ebit = after_tax_ebit,
                         growth = growth,
-                        wacc = wacc)$fcff, 1617)
-  expect_equal(get_stable_operating_assets(capex = capex,
+                        wacc = wacc)$fcff, 1181)
+  expect_equal(get_stable_operating_assets(net_capex = net_capex,
                         working_capital = working_capital,
-                        depreciation = depreciation,
                         after_tax_ebit = after_tax_ebit,
                         growth = growth,
-                        wacc = wacc)$value_operating_assets, 25877)
+                        wacc = wacc)$value_operating_assets, 18900)
 })
 
 # Test get_operating_assets

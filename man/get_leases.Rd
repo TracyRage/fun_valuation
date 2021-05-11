@@ -7,17 +7,17 @@
 get_leases(lease_flow, beyond, cost_debt)
 }
 \arguments{
-\item{lease_flow}{A list of numbers}
+\item{lease_flow}{\strong{List of numbers} Paid leases the next \strong{n} years}
 
-\item{beyond}{A number}
+\item{beyond}{\strong{Number} Paid leases beyond year five}
 
-\item{cost_debt}{A number}
+\item{cost_debt}{\strong{Number} Cost of debt}
 }
 \value{
-List of Debt value of leases AND years embedded in lease (5Y)
+\strong{List of numbers} Debt value of leases \strong{AND} years embedded in lease
 }
 \description{
-Transform future paid leases into debt
+Transform future paid leases into debt.
 }
 \examples{
 # Paid leases 5Y in the future

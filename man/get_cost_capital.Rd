@@ -7,22 +7,22 @@
 get_cost_capital(marginal_tax, cost_equity, cost_debt, equity, debt)
 }
 \arguments{
-\item{marginal_tax}{A number Marginal tax rate}
+\item{marginal_tax}{\strong{Number} Marginal tax rate}
 
-\item{cost_equity}{A number Cost of equity}
+\item{cost_equity}{\strong{Number} Cost of equity}
 
-\item{cost_debt}{A number Cost of debt}
+\item{cost_debt}{\strong{Number} Cost of debt}
 
-\item{equity}{A number Firm equity}
+\item{equity}{\strong{Number} Firm equity}
 
-\item{debt}{A number Firm debt}
+\item{debt}{\strong{Number} Firm debt (short and long term)}
 }
 \value{
-Cost of Debt
+\strong{Tibble} Cost of Debt
 }
 \description{
-Calculate Cost of Capital
+Calculate Cost of Capital.
 }
 \examples{
-cost_equity <- get_cost_debt(cost_equity=0.107, cost_debt=0.0929, ...)
+cost_equity <- get_cost_debt(cost_equity=0.107, cost_debt=0.0929, marginal_tax=0.35, equity=500, debt=300)
 }

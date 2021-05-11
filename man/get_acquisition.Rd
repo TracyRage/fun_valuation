@@ -7,21 +7,21 @@
 get_acquisition(cash_flows, amortized = TRUE)
 }
 \arguments{
-\item{amortized}{Boolean}
+\item{amortized}{\strong{Boolean} Acquisition spending the last 10 years}
 
-\item{cashflows}{A list of numbers}
+\item{cashflows}{\strong{List of numbers} Acquisition spending the 5 years}
 }
 \value{
-Amortized or Unamortized portion of Acquisition
+\strong{Number} Amortized or Unamortized portion of Acquisition
 }
 \description{
-Capitalize acquisition investments
+Capitalize acquisition investments five years back.
 }
 \examples{
-# Vector of cash flows
+# List of cash flows
 cash_flow <- list(current=123, y1=333, y2=444, y3=444, y4=555, y5=666)
-# Calculate unamortized portion of Acquisition
-unamortized_rnd <- get_acquisition(cash_flow, amortized=FALSE)
-# Calculate amortized portion of Acquisition
-amortized_rnd <- get_acquisition(cash_flow)
+# Calculate unamortized portion of acquisition
+unamortized_aq <- get_acquisition(cash_flow, amortized=FALSE)
+# Calculate amortized portion of acquisition
+amortized_aq <- get_acquisition(cash_flow)
 }

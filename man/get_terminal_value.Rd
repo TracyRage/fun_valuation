@@ -7,17 +7,20 @@
 get_terminal_value(ebit_year_five, stable_growth, wacc, roic)
 }
 \arguments{
-\item{ebit_year_five}{A number After-tax EBIT year 5}
+\item{ebit_year_five}{\strong{Number} After-tax EBIT year 5}
 
-\item{stable_growth}{A number Growth (Risk-free Rate)}
+\item{stable_growth}{\strong{Number} Growth (Risk-free Rate)}
 
-\item{wacc}{A number Cost of Capital}
+\item{wacc}{\strong{Number} Cost of Capital}
 
-\item{roic}{A number Return of Capital}
+\item{roic}{\strong{Number} Return of Capital}
+}
+\value{
+\strong{Tibble} Terminal Value
 }
 \description{
-Calculate Value of Terminal Value (2-stage growth)
+Calculate Value of Terminal Value (2-stage growth).
 }
 \examples{
-get_terminal_value(after_tax_ebit=1300, roic=0.046, wacc=0.1, stable_growth=0.03)
+get_terminal_value(ebit_year_five=1300, roic=0.046, wacc=0.1, stable_growth=0.03)
 }

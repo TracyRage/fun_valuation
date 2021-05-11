@@ -7,18 +7,18 @@
 get_amortization_2(cash_flows, amortized)
 }
 \arguments{
-\item{amortized}{Boolean}
+\item{amortized}{\strong{Boolean} Calculate amortized R&D}
 
-\item{cashflows}{A list of numbers}
+\item{cashflows}{\strong{List of numbers} R&D spending the last 2 years}
 }
 \value{
-Amortized or Unamortized portion of R&D
+\strong{Number} Amortized or unamortized portion of R&D
 }
 \description{
-Capitalize R&D investments (Non-tech service, Ads, Banks, Restaurant, Retail Store etc.)
+Capitalize R&D investments two years back (Non-tech service, Ads, Banks, Restaurant, Retail Store etc.).
 }
 \examples{
-# Vector of cash flows
+# List of cash flows
 cash_flow <- list(current=123, y1=333, y2=444)
 # Calculate unamortized portion of R&D
 unamortized_rnd <- get_amortization_2(cash_flow, amortized=FALSE)

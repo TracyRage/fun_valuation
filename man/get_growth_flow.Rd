@@ -2,7 +2,7 @@
 % Please edit documentation in R/valuation_funs.R
 \name{get_growth_flow}
 \alias{get_growth_flow}
-\title{Calculate growth firm cash flows}
+\title{Calculate growth firm cash flows (start-ups)}
 \usage{
 get_growth_flow(
   revenue,
@@ -11,30 +11,38 @@ get_growth_flow(
   final_margin,
   tax_margin,
   ebit,
-  nol
+  nol,
+  sales_capital_ratio,
+  current_capital_investment
 )
 }
 \arguments{
-\item{revenue}{A number Current year revenues}
+\item{revenue}{\strong{Number} Current year revenues}
 
-\item{revenue_growth_trend}{A list of numbers Revenue growth next 10 years}
+\item{revenue_growth_trend}{\strong{List of numbers} Revenue growth next 10 years}
 
-\item{initial_margin}{A number Current year operating margin}
+\item{initial_margin}{\strong{Number} Current year operating margin}
 
-\item{final_margin}{A number Final year operating margin}
+\item{final_margin}{\strong{Number} Final year operating margin}
 
-\item{ebit}{A number Current year EBIT}
+\item{ebit}{\strong{Number} Current year EBIT}
 
-\item{nol}{A number Net Operating Losses}
+\item{nol}{\strong{Number} Net Operating Losses}
 
-\item{marginal_tax}{A number Marginal tax (industry specific)}
+\item{sales_capital_ratio}{\strong{Number} Ratio between revenues and invested capital (industry)}
 
-\item{depreciation}{A number Depreciation current year}
+\item{current_capital_investment}{\strong{Number} Current year capital investment}
 
-\item{capex}{A number CapEx current year}
-
-\item{working_capital}{A number Change in working capital current year}
+\item{marginal_tax}{\strong{Number} Marginal tax (industry specific)}
+}
+\value{
+\strong{Tibble} Full description of financial parameters
 }
 \description{
-Calculate After-tax EBIT and FCFF flows and NPV (high growth firm)
+Calculate After-tax EBIT and FCFF flows and NPV (high growth firm).
+}
+\examples{
+# Revenues growth in \%
+revenues_growth <- list(y1=0.55, y2=0.45, y3=0.40, y4=0.35, y5=0.30,y6=0.20, y7=0.15, y8=0.12, y9=0.08, y10=0.06)
+res <- get_growth_flow(revenue = 1246, revenue_growth_trend = revenues_growth, initial_margin = -0.0418, final_margin = 0.14, tax_margin = 0.375, ebit = -52, nol = 1289, sales_capital_ratio = 0.5, current_capital_investment = 1000)
 }

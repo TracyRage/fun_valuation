@@ -7,17 +7,17 @@
 get_working_cap(inventory, accounts_receive, accounts_payable)
 }
 \arguments{
-\item{inventory}{A number Inventory}
+\item{inventory}{\strong{Number} Inventory}
 
-\item{accounts_receive}{A number Accounts receivable}
+\item{accounts_receive}{\strong{Number} Accounts receivable}
 
-\item{accounts_payable}{A number Accounts payable}
+\item{accounts_payable}{\strong{Number} Accounts payable}
 }
 \value{
-Working capital
+\strong{Tibble} Working capital
 }
 \description{
-Calculate working capital
+Calculate working capital.
 }
 \examples{
 get_working_cap(inventory=40, account_receive=80, accounts_payable=40)

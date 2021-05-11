@@ -7,14 +7,17 @@
 get_rr(net_capex, working_capital, after_tax_ebit)
 }
 \arguments{
-\item{net_capex}{A number Net Capital Expenditure}
+\item{net_capex}{\strong{Number} Net Capital Expenditure}
 
-\item{working_capital}{A number Change in Working Capital}
+\item{working_capital}{\strong{Number} Change in Working Capital}
 
-\item{adj_ebit}{A number Adjusted EBIT}
+\item{after_tax_ebit}{\strong{Number} Adjusted EBIT}
+}
+\value{
+\strong{Tibble} Reinvestment rate
 }
 \description{
-Calculate Reinvestment Rate (w/ adjusted EBIT)
+Calculate Reinvestment Rate (w/ adjusted EBIT).
 }
 \examples{
 get_rr(net_capex=100, working_capital=100, after_tax_ebit=200)

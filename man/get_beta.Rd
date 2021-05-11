@@ -2,7 +2,7 @@
 % Please edit documentation in R/valuation_funs.R
 \name{get_beta}
 \alias{get_beta}
-\title{Calculate Levered Beta / Unlevered beta}
+\title{Calculate Levered Beta & Unlevered beta}
 \usage{
 get_beta(
   average_beta,
@@ -14,24 +14,24 @@ get_beta(
 )
 }
 \arguments{
-\item{average_beta}{A number Industry average beta}
+\item{average_beta}{\strong{Number} Industry average beta}
 
-\item{industry_tax}{A number Industry effective tax rate}
+\item{industry_tax}{\strong{Number} Industry effective tax rate}
 
-\item{average_de}{A number Industry average Debt/Equity}
+\item{average_de}{\strong{Number} Industry average Debt/Equity}
 
-\item{firm_tax}{A number Firm effective tax}
+\item{firm_tax}{\strong{Number} Firm effective tax}
 
-\item{firm_debt}{A number Firm debt value}
+\item{firm_debt}{\strong{Number} Firm debt value (short + long term)}
 
-\item{firm_equity}{A number Firm equity value}
+\item{firm_equity}{\strong{Number} Firm equity value}
 }
 \value{
-Bottom-up beta
+\strong{Tibble} with bottom-up beta
 }
 \description{
-Calculate unlevered and levered beta
+Calculate unlevered and levered beta.
 }
 \examples{
-beta <- get_beta(average_beta=0.77, industry_tax=0.05, average_de=0.083, ...)
+beta <- get_beta(average_beta=0.77, industry_tax=0.05, average_de=0.083, firm_tax=0.35, firm_debt=333, firm_equity=444)
 }

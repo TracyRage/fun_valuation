@@ -7,21 +7,29 @@
 lease_adjustment(current_lease, debt_value_lease, lease_embedded_years)
 }
 \arguments{
-\item{current_lease}{A number Current lease expense (from IS)}
+\item{current_lease}{\strong{Number} Current lease expenses}
 
-\item{debt_value_lease}{A number Capitalized leases}
+\item{debt_value_lease}{\strong{Number} Capitalized leases}
 
-\item{lease_embedded_years}{A number Embedded years in leases (5Y)}
+\item{lease_embedded_years}{\strong{Number} Embedded years in leases}
 }
 \value{
-A number of lease adjustment for EBIT
+\strong{Number} Lease adjustment for EBIT
 }
 \description{
-Calculate lease adjustment to EBIT (for ROIC calculation)
+Calculate lease adjustment to EBIT (for ROIC calculation).
 }
 \examples{
-See get_leases function output for debt_value_lease and lease_embedded_years
+# See get_leases function output for debt_value_lease and lease_embedded_years
 # Current year leases
 current_lease <- 555
-lease_adj <- lease_adjustment(current_lease, get_leases$debt_value_lease, get_leases$years_embedded)
+# Paid leases 5Y in the future
+cash_flow <- list(y1=333, y2=444, y3=444, y4=555, y5=666)
+# Paid leases beyond 5Y
+beyond <- 45555
+# Indicate the cost of debt (firm rating OR synthetic rating)
+cost_debt <- 0.05
+# Capitalize future leases
+cap_leases <- get_leases(cash_flow, beyond, cost_debt)
+lease_adj <- lease_adjustment(current_lease, cap_leases$debt_value_lease, cap_leases$years_embedded)
 }

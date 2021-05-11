@@ -7,17 +7,17 @@
 get_cost_equity(risk_free, beta, risk_premium)
 }
 \arguments{
-\item{risk_free}{A number Risk free rate}
+\item{risk_free}{\strong{Number} Risk free rate}
 
-\item{beta}{A number Bottom-up beta}
+\item{beta}{\strong{Number} Bottom-up levered beta}
 
-\item{risk_premium}{A number Risk premium}
+\item{risk_premium}{\strong{Number} Risk premium}
 }
 \value{
-Cost of Equity
+\strong{Tibble} Cost of Equity
 }
 \description{
-Calculate Cost of Equity
+Calculate Cost of Equity.
 }
 \examples{
 cost_equity <- get_cost_equity(risk_free=0.015, beta=0.71, rick_premium=0.041)

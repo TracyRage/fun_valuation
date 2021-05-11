@@ -15,26 +15,26 @@ get_roe(
 )
 }
 \arguments{
-\item{income}{A number Current year income}
+\item{income}{\strong{Number} Current year income}
 
-\item{rnd_adj}{A number R&D adjustment}
+\item{rnd_adj}{\strong{Number} R&D adjustment}
 
-\item{equity}{A number Current year Equity}
+\item{equity}{\strong{Number} Current year Equity}
 
-\item{goodwill}{A number Goodwill}
+\item{goodwill}{\strong{Number} Goodwill}
 
-\item{goodwill_portion}{A number Portion of goodwill adjustment (default=0)}
+\item{goodwill_portion}{\strong{Number} Portion of goodwill adjustment}
 
-\item{rnd_asset}{A number Unamortized portion of R&D}
+\item{rnd_asset}{\strong{Number} Unamortized portion of R&D}
 
-\item{eff_tax}{A number Effective tax rate}
+\item{eff_tax}{\strong{Number} Effective tax rate}
 }
 \value{
-A tibble ROE and the other parameters
+\strong{Tibble} with ROE and the other parameters
 }
 \description{
 Calculate Return on Equity
 }
 \examples{
-ROE <- get_roe(income=333, rnd_adj=555, goodwill=5555)
+ROE <- get_roe(income=333, goodwill=5555, equity=4555)
 }

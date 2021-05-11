@@ -2,7 +2,7 @@
 % Please edit documentation in R/valuation_funs.R
 \name{get_net_capex}
 \alias{get_net_capex}
-\title{Calculate Net CapEx}
+\title{Calculate Net Capital Expenditures (Net CapEx)}
 \usage{
 get_net_capex(
   capex,
@@ -16,28 +16,28 @@ get_net_capex(
 )
 }
 \arguments{
-\item{capex}{A number Current year capital expenditure}
+\item{capex}{\strong{Number} Current year capital expenditure}
 
-\item{depreciation}{A number Depreciation}
+\item{depreciation}{\strong{Number} Depreciation}
 
-\item{rnd_expense}{A number Current year R&D expense}
+\item{rnd_expense}{\strong{Number} Current year R&D expense}
 
-\item{rnd_amortization}{A number R&D amortization}
+\item{rnd_amortization}{\strong{Number} R&D amortization}
 
-\item{acquisition}{A number Acquisition}
+\item{acquisition}{\strong{Number} Acquisition}
 
-\item{lease_last_year}{A number NPV of last year leases}
+\item{lease_last_year}{\strong{Number} NPV of last year leases}
 
-\item{lease_current_year}{A number NPV of current leases}
+\item{lease_current_year}{\strong{Number} NPV of current leases}
 
-\item{acquisition_amortization}{A number Acquisition amortization}
+\item{acquisition_amortization}{\strong{Number} Acquisition amortization}
 }
 \value{
-Net CapEx
+\strong{Tibble} Net CapEx
 }
 \description{
-Calculate and adjust Net Capital Expenditure
+Calculate and adjust Net Capital Expenditure.
 }
 \examples{
-get_net_capex(capex=584, depreciation=484, rnd_expense=1594, rnd_amortization=485, acquisition=2516, ...)
+get_net_capex(capex=584, depreciation=484)
 }

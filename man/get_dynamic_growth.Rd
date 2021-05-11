@@ -12,11 +12,14 @@ get_dynamic_growth(
 )
 }
 \arguments{
-\item{reinvestment_rate}{A number Reinvestment rate}
+\item{reinvestment_rate}{\strong{Number} Reinvestment rate}
 
-\item{roic_initial}{A number Current year Return on Capital}
+\item{roic_initial}{\strong{Number} Current year Return on Capital}
 
-\item{roic_target}{A number Target Return on Capital}
+\item{roic_target}{\strong{Number} Target Return on Capital}
+}
+\value{
+\strong{Tibble} Expected Growth Rate
 }
 \description{
 Calculate expected growth rate (w/ changing ROIC across years), used in case of efficiency claim.

@@ -6,29 +6,29 @@
 \usage{
 get_stable_operating_assets(
   after_tax_ebit,
-  depreciation,
-  capex,
+  net_capex,
   working_capital,
   wacc,
   growth
 )
 }
 \arguments{
-\item{after_tax_ebit}{A number After-Tax EBIT (current year)}
+\item{after_tax_ebit}{\strong{Number} After-Tax EBIT (current year)}
 
-\item{depreciation}{A number Depreciation}
+\item{net_capex}{\strong{Number} Net Capital Expenditures}
 
-\item{capex}{A number Capital Expenditure}
+\item{working_capital}{\strong{Number} Change in Working Capital}
 
-\item{working_capital}{A number Change in Working Capital}
+\item{wacc}{\strong{Number} Cost of Capital}
 
-\item{wacc}{A number Cost of Capital}
-
-\item{growth}{A number Growth rate}
+\item{growth}{\strong{Number} Growth rate}
+}
+\value{
+\strong{Tibble} FCFF
 }
 \description{
 Calculate FCFF (w/ After Tax EBIT)
 }
 \examples{
-get_fcff(after_tax_ebit=2481, depreciation=1914, capex=1659, working_capital=1119)
+get_fcff(after_tax_ebit=2481, depreciation=1914, capex=1659, working_capital=1119, wacc=0.035, growth=0.03)
 }

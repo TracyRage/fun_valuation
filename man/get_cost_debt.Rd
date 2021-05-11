@@ -7,17 +7,17 @@
 get_cost_debt(risk_free, company_spread, country_spread = 0)
 }
 \arguments{
-\item{risk_free}{A number Risk free rate}
+\item{risk_free}{\strong{Number} Risk free rate}
 
-\item{company_spread}{A number Firm company spread}
+\item{company_spread}{\strong{Number} Firm company spread}
 
-\item{country_spread}{A number Country spread}
+\item{country_spread}{\strong{Number} Country spread}
 }
 \value{
-Cost of Debt
+\strong{Tibble} Cost of Debt
 }
 \description{
-Calculate Cost of Debt based on interest coverage rate (EBIT/Interest expense)
+Calculate Cost of Debt based on interest coverage rate (EBIT/Interest expense).
 }
 \examples{
 cost_equity <- get_cost_debt(risk_free=0.015, company_spread=0.01)

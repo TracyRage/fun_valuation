@@ -22,45 +22,45 @@ get_roic(
 )
 }
 \arguments{
-\item{ebit}{A number Current year EBIT}
+\item{ebit}{\strong{Number} Current year EBIT}
 
-\item{curr_lease_adj}{A number Lease adjustment to EBIT (lease_adjustment function)}
+\item{curr_lease_adj}{\strong{Number} Lease adjustment to EBIT}
 
-\item{rnd_adj}{A number R&D adjustment to EBIT}
+\item{rnd_adj}{\strong{Number} R&D adjustment to EBIT}
 
-\item{eff_tax}{A number Effective tax rate (Tax Paid / Taxable Income)}
+\item{eff_tax}{\strong{Number} Effective tax rate (Tax Paid / Taxable Income)}
 
-\item{short_debt}{A number Short term debt (Short term interest bearing debt (debt + leases))}
+\item{short_debt}{\strong{Number} Short term debt (Short term interest bearing debt (debt + leases))}
 
-\item{long_debt}{A number Long term debt (Debt + Leases)}
+\item{long_debt}{\strong{Number} Long term debt (debt + leases)}
 
-\item{equity}{A number Equity}
+\item{equity}{\strong{Number} Equity}
 
-\item{goodwill}{A number Goodwill}
+\item{goodwill}{\strong{Number} Goodwill}
 
-\item{cash}{A number Cash}
+\item{cash}{\strong{Number} Cash}
 
-\item{last_lease_debt}{A number Last year capitalized leases (present value)}
+\item{last_lease_debt}{\strong{Number} Last year capitalized leases}
 
-\item{rnd_asset}{A number The unamortized part of R&D}
+\item{rnd_asset}{\strong{Number} The unamortized portion of R&D}
 
-\item{goodwill_portion}{A number Part of goodwill added to Invested capital (default=0.2)}
+\item{goodwill_portion}{\strong{Number} Part of goodwill added to Invested capital}
 
-\item{cash_portion}{A number Part of cash added to Invested capital (default=0.2)}
+\item{cash_portion}{\strong{Number} Part of cash added to Invested capital}
 
-\item{minority}{A number Minority interest (default=0)}
+\item{minority}{\strong{Number} Minority interest}
 
-\item{current_year_rnd}{A number Current year R&D spending}
+\item{current_year_rnd}{\strong{Number} Current year R&D spending}
 
-\item{amortized_rnd}{A number Amortized portion of R&D}
+\item{amortized_rnd}{\strong{Number} Amortized portion of R&D}
 }
 \value{
-A tibble ROIC and other parameters
+\strong{Tibble} with ROIC and other parameters
 }
 \description{
-Calculate Return on Invested Capital
+Calculate Return on Invested Capital.
 }
 \examples{
-roic <- get_roic(ebit=2033, curr_lease_adj=56763, eff_tax=0.2, short_debt=333,
-                 long_debt=4567, equity=4444, ...)
+roic <- get_roic(ebit=2033, eff_tax=0.2, short_debt=333,
+                 long_debt=4567, equity=4444, goodwill=333, cash=345)
 }

@@ -7,14 +7,17 @@
 get_operating_assets(npv_fcff, terminal_value, wacc)
 }
 \arguments{
-\item{npv_fcff}{A number Free Cash Flow to Firm}
+\item{npv_fcff}{\strong{Number} Free Cash Flow to Firm}
 
-\item{terminal_value}{A number Terminal Value}
+\item{terminal_value}{\strong{Number} Terminal Value}
 
-\item{wacc}{A number Cost of Capital}
+\item{wacc}{\strong{Number} Cost of Capital}
+}
+\value{
+\strong{Tibble} Value of operating assets
 }
 \description{
-Calculate Value of Operating Assets (2-stage growth)
+Calculate Value of Operating Assets (2-stage growth).
 }
 \examples{
 get_operating_asses(npv_fcff=111, terminal_value=222, wacc=0.065)

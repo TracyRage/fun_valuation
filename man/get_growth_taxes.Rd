@@ -13,6 +13,9 @@ get_growth_taxes(ebit, last_nol, marginal_tax)
 
 \item{marginal_tax}{A number Marginal tax (industry)}
 }
+\value{
+\strong{Number}
+}
 \description{
 Calculate Taxes paid
 }

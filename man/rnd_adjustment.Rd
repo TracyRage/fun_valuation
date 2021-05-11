@@ -7,20 +7,23 @@
 rnd_adjustment(current_rnd, amortized_rnd)
 }
 \arguments{
-\item{current_rnd}{A number Current year R&D expense}
+\item{current_rnd}{\strong{Number} Current year R&D expense}
 
-\item{amortized_rnd}{A number Amortized R&D}
+\item{amortized_rnd}{\strong{Number} Amortized R&D}
 }
 \value{
-A number of R&D adjustment for EBIT
+\strong{Number} R&D adjustment for EBIT
 }
 \description{
-Calculate R&D adjustment to EBIT (for ROIC calculation)
+Calculate R&D adjustment to EBIT (for ROIC calculation).
 }
 \examples{
 See get_amortization function output for amortized R&D
 # Current year R&D
 current_rnd <- 1771
-amortized_rnd <- get_amortization_3(...)
+# R&D spending last five years
+cash_flow <- list(current=123, y1=333, y2=444, y3=444, y4=555, y5=666)
+# Calculate amortized portion of R&D
+amortized_rnd <- get_amortization_5(cash_flow)
 lease_adj <- rnd_adjustment(current_rnd, amortized_rnd)
 }

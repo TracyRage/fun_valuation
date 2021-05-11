@@ -2,14 +2,17 @@
 % Please edit documentation in R/valuation_funs.R
 \name{get_stable_growth}
 \alias{get_stable_growth}
-\title{Calculate Expected Growth rate (stable ROIC)}
+\title{Calculate Expected Growth Rate (stable ROIC)}
 \usage{
 get_stable_growth(reinvestment_rate, roic)
 }
 \arguments{
-\item{reinvestment_rate}{A number Reinvestment rate}
+\item{reinvestment_rate}{\strong{Number} Reinvestment rate}
 
-\item{roic}{A number Return on Capital}
+\item{roic}{\strong{Number} Return on Capital}
+}
+\value{
+\strong{Tibble} Expected Growth Rate
 }
 \description{
 Calculate expected growth rate (w/ stable ROIC across years)
