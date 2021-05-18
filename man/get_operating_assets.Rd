@@ -2,9 +2,17 @@
 % Please edit documentation in R/valuation_funs.R
 \name{get_operating_assets}
 \alias{get_operating_assets}
-\title{Calculate Value of Operating Assets}
+\title{Calculate Value of Operating Assets (value/share)}
 \usage{
-get_operating_assets(npv_fcff, terminal_value, wacc)
+get_operating_assets(
+  npv_fcff,
+  terminal_value,
+  wacc,
+  cash,
+  debt,
+  share_out,
+  current_share_price
+)
 }
 \arguments{
 \item{npv_fcff}{\strong{Number} Free Cash Flow to Firm}
@@ -12,6 +20,14 @@ get_operating_assets(npv_fcff, terminal_value, wacc)
 \item{terminal_value}{\strong{Number} Terminal Value}
 
 \item{wacc}{\strong{Number} Cost of Capital}
+
+\item{cash}{\strong{Number} Cash}
+
+\item{debt}{\strong{Number} Current debt}
+
+\item{share_out}{\strong{Number} Shares outstanding}
+
+\item{current_share_price}{\strong{Number} Current share price}
 }
 \value{
 \strong{Tibble} Value of operating assets
@@ -20,5 +36,6 @@ get_operating_assets(npv_fcff, terminal_value, wacc)
 Calculate Value of Operating Assets (2-stage growth).
 }
 \examples{
-get_operating_asses(npv_fcff=111, terminal_value=222, wacc=0.065)
+get_operating_asses(npv_fcff=111, terminal_value=222, wacc=0.065, cash=111, debt=467,
+current_share_price=34, share_out=111)
 }

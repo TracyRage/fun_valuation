@@ -13,7 +13,20 @@ get_growth_flow(
   ebit,
   nol,
   sales_capital_ratio,
-  current_capital_investment
+  current_capital_investment,
+  bottom_beta,
+  terminal_beta,
+  debt_to_capital,
+  target_debt_to_capital,
+  debt,
+  cash,
+  cost_debt,
+  target_cost_debt,
+  stock_price,
+  stock_out,
+  option_out,
+  risk_free,
+  risk_premium
 )
 }
 \arguments{
@@ -33,7 +46,35 @@ get_growth_flow(
 
 \item{current_capital_investment}{\strong{Number} Current year capital investment}
 
+\item{bottom_beta}{\strong{Number} Approximate initial bottom-up beta}
+
+\item{terminal_beta}{\strong{Number} Approximate terminal bottom-up beta}
+
+\item{debt_to_capital}{\strong{Number} Debt/Capital ratio}
+
+\item{target_debt_to_capital}{\strong{Number} Terminal year Debt / Capital}
+
+\item{debt}{\strong{Number} Current debt}
+
+\item{cash}{\strong{Number} Cash}
+
+\item{cost_debt}{\strong{Number} Cost of debt (CCC rating firm)}
+
+\item{target_cost_debt}{\strong{Number} Terminal cost of debt}
+
+\item{stock_price}{\strong{Number} Current stock price}
+
+\item{stock_out}{\strong{Number} Current stock outstanding}
+
+\item{option_out}{\strong{Number} Options outstanding}
+
+\item{risk_free}{\strong{Number} Current risk free rate}
+
+\item{risk_premium}{\strong{Number} Current risk premium}
+
 \item{marginal_tax}{\strong{Number} Marginal tax (industry specific)}
+
+\item{cost_equity}{\strong{Number} Cost of equity}
 }
 \value{
 \strong{Tibble} Full description of financial parameters
@@ -43,6 +84,15 @@ Calculate After-tax EBIT and FCFF flows and NPV (high growth firm).
 }
 \examples{
 # Revenues growth in \%
-revenues_growth <- list(y1=0.55, y2=0.45, y3=0.40, y4=0.35, y5=0.30,y6=0.20, y7=0.15, y8=0.12, y9=0.08, y10=0.06)
-res <- get_growth_flow(revenue = 1246, revenue_growth_trend = revenues_growth, initial_margin = -0.0418, final_margin = 0.14, tax_margin = 0.375, ebit = -52, nol = 1289, sales_capital_ratio = 0.5, current_capital_investment = 1000)
+revenues_growth <- list(y1=0.55, y2=0.45, y3=0.40, y4=0.35, y5=0.30,
+y6=0.20, y7=0.15, y8=0.12, y9=0.08, y10=0.06)
+res <- get_growth_flow(revenue = 1246,
+revenue_growth_trend = revenues_growth,
+initial_margin = -0.0418, final_margin = 0.14,
+tax_margin = 0.375, ebit = -52, nol = 1289,
+sales_capital_ratio = 0.5, current_capital_investment = 1000,
+debt_to_capital=0.04, bottom_beta=1.37,
+terminal_beta=1.1, target_debt_capital=0.44, debt=143, debt_cost=0.05, stock_price=80,
+stock_out=130, risk_free=0.015, risk_premium=0.045, target_cost_debt=0.08, option_out=13.805,
+cash=196)
 }

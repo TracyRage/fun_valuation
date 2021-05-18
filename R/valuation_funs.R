@@ -542,32 +542,56 @@ get_dynamic_growth <- function(reinvestment_rate, roic_initial, roic_target, yea
 #' @param working_capital **Number** Change in Working Capital
 #' @param growth **Number** Growth rate
 #' @param wacc **Number** Cost of Capital
+#' @param cash **Number** Cash
+#' @param debt **Number** Current debt
+#' @param share_out **Number** Shares outstanding
+#' @param current_share_price **Number** Current share price
 #' @return **Tibble** FCFF
 #' @export
-#' @examples get_fcff(after_tax_ebit=2481, depreciation=1914, capex=1659, working_capital=1119, wacc=0.035, growth=0.03)
+#' @examples get_fcff(after_tax_ebit=2481, depreciation=1914, capex=1659,
+#' working_capital=1119, wacc=0.035, growth=0.03, cash=111, debt=475,
+#' current_share_price=34, share_out=111)
 #' @importFrom tibble tibble
 get_stable_operating_assets <- function(after_tax_ebit, net_capex, working_capital,
-                                        wacc, growth) {
+                                        wacc, growth, cash, debt, current_share_price,
+                                        share_out) {
   fcff <- after_tax_ebit - net_capex - working_capital
   value_operating_assets <- fcff*(1+growth) / (wacc-growth)
+  value_equity <- value_operating_assets + cash - debt
+  value_per_share <- value_equity / share_out
   return(tibble(fcff=fcff, after_tax_ebit=after_tax_ebit,
          net_capex=net_capex, working_capital=working_capital,
-         value_operating_assets=round(value_operating_assets)))
+         value_operating_assets=round(value_operating_assets),
+         value_equity=round(value_equity),
+         value_per_share=value_per_share,
+         current_share_price=current_share_price))
 }
 
-#' Calculate Value of Operating Assets
+#' Calculate Value of Operating Assets (value/share)
 #' @description Calculate Value of Operating Assets (2-stage growth).
 #' @param npv_fcff **Number** Free Cash Flow to Firm
 #' @param terminal_value **Number** Terminal Value
 #' @param wacc **Number** Cost of Capital
+#' @param cash **Number** Cash
+#' @param debt **Number** Current debt
+#' @param current_share_price **Number** Current share price
+#' @param share_out **Number** Shares outstanding
 #' @return **Tibble** Value of operating assets
 #' @export
 #' @examples
-#' get_operating_asses(npv_fcff=111, terminal_value=222, wacc=0.065)
+#' get_operating_asses(npv_fcff=111, terminal_value=222, wacc=0.065, cash=111, debt=467,
+#' current_share_price=34, share_out=111)
 #' @importFrom tibble tibble
-get_operating_assets <- function(npv_fcff, terminal_value, wacc) {
+get_operating_assets <- function(npv_fcff, terminal_value, wacc, cash, debt,
+                                 share_out, current_share_price) {
   value_operating_assets <- npv_fcff + terminal_value / (1+wacc)^5
-  tibble(npv_fcff=npv_fcff, wacc=wacc, terminal_value=terminal_value, value_operating_assets=round(value_operating_assets))
+  value_equity <- value_operating_assets + cash - debt
+  value_per_share <- value_equity / share_out
+  tibble(npv_fcff=npv_fcff, wacc=wacc, terminal_value=terminal_value,
+         value_operating_assets=round(value_operating_assets),
+         value_equity=round(value_equity),
+         value_per_share=value_per_share,
+         share_price=current_share_price)
 }
 
 #' Calculate Terminal Value
@@ -650,11 +674,35 @@ get_cash_flow <- function(after_tax_ebit, reinvestment_rate, time_period, wacc, 
 #' @param nol **Number** Net Operating Losses
 #' @param sales_capital_ratio **Number** Ratio between revenues and invested capital (industry)
 #' @param current_capital_investment **Number** Current year capital investment
+#' @param bottom_beta **Number** Approximate initial bottom-up beta
+#' @param terminal_beta **Number** Approximate terminal bottom-up beta
+#' @param debt_to_capital **Number** Debt/Capital ratio
+#' @param cost_equity **Number** Cost of equity
+#' @param cost_debt **Number** Cost of debt
+#' @param target_cost_debt **Number** Terminal cost of debt
+#' @param target_debt_to_capital **Number** Terminal year Debt / Capital
+#' @param debt **Number** Current debt
+#' @param cash **Number** Cash
+#' @param cost_debt **Number** Cost of debt (CCC rating firm)
+#' @param stock_price **Number** Current stock price
+#' @param stock_out **Number** Current stock outstanding
+#' @param option_out **Number** Options outstanding
+#' @param risk_free **Number** Current risk free rate
+#' @param risk_premium **Number** Current risk premium
 #' @return **Tibble** Full description of financial parameters
 #' @examples
 #' # Revenues growth in %
-#' revenues_growth <- list(y1=0.55, y2=0.45, y3=0.40, y4=0.35, y5=0.30,y6=0.20, y7=0.15, y8=0.12, y9=0.08, y10=0.06)
-#' res <- get_growth_flow(revenue = 1246, revenue_growth_trend = revenues_growth, initial_margin = -0.0418, final_margin = 0.14, tax_margin = 0.375, ebit = -52, nol = 1289, sales_capital_ratio = 0.5, current_capital_investment = 1000)
+#' revenues_growth <- list(y1=0.55, y2=0.45, y3=0.40, y4=0.35, y5=0.30,
+#' y6=0.20, y7=0.15, y8=0.12, y9=0.08, y10=0.06)
+#' res <- get_growth_flow(revenue = 1246,
+#' revenue_growth_trend = revenues_growth,
+#' initial_margin = -0.0418, final_margin = 0.14,
+#' tax_margin = 0.375, ebit = -52, nol = 1289,
+#' sales_capital_ratio = 0.5, current_capital_investment = 1000,
+#' debt_to_capital=0.04, bottom_beta=1.37,
+#' terminal_beta=1.1, target_debt_capital=0.44, debt=143, debt_cost=0.05, stock_price=80,
+#' stock_out=130, risk_free=0.015, risk_premium=0.045, target_cost_debt=0.08, option_out=13.805,
+#' cash=196)
 #' @export
 #' @importFrom tibble tibble
 get_growth_flow <- function(revenue,
@@ -665,7 +713,20 @@ get_growth_flow <- function(revenue,
                             ebit,
                             nol,
                             sales_capital_ratio,
-                            current_capital_investment) {
+                            current_capital_investment,
+                            bottom_beta,
+                            terminal_beta,
+                            debt_to_capital,
+                            target_debt_to_capital,
+                            debt,
+                            cash,
+                            cost_debt,
+                            target_cost_debt,
+                            stock_price,
+                            stock_out,
+                            option_out,
+                            risk_free,
+                            risk_premium) {
 
   # Calculate revenues the next 10Y
   revenue_initial <- revenue
@@ -679,6 +740,7 @@ get_growth_flow <- function(revenue,
   revenues_y8 <- round(revenues_y7*(1+revenue_growth_trend$y8), 0)
   revenues_y9 <- round(revenues_y8*(1+revenue_growth_trend$y9), 0)
   revenues_y10 <- round(revenues_y9*(1+revenue_growth_trend$y10), 0)
+  revenues_terminal <- round(revenues_y10*(1+revenue_growth_trend$terminal), 0)
   revenues_10_years <- c(initial = revenue_initial,
                          y1=revenues_y1,
                             y2=revenues_y2,
@@ -689,7 +751,8 @@ get_growth_flow <- function(revenue,
                             y7=revenues_y7,
                             y8=revenues_y8,
                             y9=revenues_y9,
-                            y10=revenues_y10)
+                            y10=revenues_y10,
+                         terminal=revenues_terminal)
 
   # Calculate increase in revenues the next 10Y
   revenue_increase <- 0
@@ -703,15 +766,17 @@ get_growth_flow <- function(revenue,
   rev_increase_y8 <- revenues_y8-revenues_y7
   rev_increase_y9 <- revenues_y9-revenues_y8
   rev_increase_y10 <- revenues_y10-revenues_y9
+  rev_increase_terminal <- revenues_terminal-revenues_y9
   rev_increase_10_years <- c(revenue_increase=revenue_increase,
                              y1=rev_increase_y1, y2=rev_increase_y2,
                              y3=rev_increase_y3, y4=rev_increase_y4,
                              y5=rev_increase_y5, y6=rev_increase_y6,
                              y7=rev_increase_y7, y8=rev_increase_y8,
-                             y9=rev_increase_y9, y10=rev_increase_y10)
+                             y9=rev_increase_y9, y10=rev_increase_y10,
+                             terminal=rev_increase_terminal)
 
   # Calculate Reinvestment
-  current_reinv <- 0
+  current_reinv <- revenue_initial * sales_capital_ratio
   revin_y1 <- rev_increase_y1 * sales_capital_ratio
   revin_y2 <- rev_increase_y2 * sales_capital_ratio
   revin_y3 <- rev_increase_y3 * sales_capital_ratio
@@ -722,12 +787,14 @@ get_growth_flow <- function(revenue,
   revin_y8 <- rev_increase_y8 * sales_capital_ratio
   revin_y9 <- rev_increase_y9 * sales_capital_ratio
   revin_y10 <- rev_increase_y10 * sales_capital_ratio
+  revin_terminal <- rev_increase_terminal * sales_capital_ratio
   revin_10_years <- c(current_reinv=current_reinv,
                              y1=revin_y1, y2=revin_y2,
                              y3=revin_y3, y4=revin_y4,
                              y5=revin_y5, y6=revin_y6,
                              y7=revin_y7, y8=revin_y8,
-                             y9=revin_y9, y10=revin_y10)
+                             y9=revin_y9, y10=revin_y10,
+                      terminal=revin_terminal)
 
   # Calculate capital investment
   initial_capital_inv <- 0
@@ -741,12 +808,14 @@ get_growth_flow <- function(revenue,
   cap_y8 <- revin_y8 + cap_y7
   cap_y9 <- revin_y9 + cap_y8
   cap_y10 <- revin_y10 + cap_y9
+  cap_terminal <- revin_terminal + cap_y10
   cap_10_years <- c(initial_capital=initial_capital_inv,
                              y1=cap_y1, y2=cap_y2,
                              y3=cap_y3, y4=cap_y4,
                              y5=cap_y5, y6=cap_y6,
                              y7=cap_y7, y8=cap_y8,
-                             y9=cap_y9, y10=cap_y10)
+                             y9=cap_y9, y10=cap_y10,
+                    terminal=cap_terminal)
 
   # Calculate % Margins the next 10Y
   margin_initial <- initial_margin
@@ -760,6 +829,7 @@ get_growth_flow <- function(revenue,
   margin_y8 <- round(((margin_y7*1.5)/2.5+final_margin/2.5),3)
   margin_y9 <- round(((margin_y8*1.5)/2.5+final_margin/2.5),3)
   margin_y10 <- round(((margin_y9*1.5)/2.5+final_margin/2.5),3)
+  margin_terminal <- round(final_margin, 3)
   margins_10_years <- c(margin_initial = margin_initial,
                         y1=margin_y1,
                            y2=margin_y2,
@@ -770,7 +840,8 @@ get_growth_flow <- function(revenue,
                            y7=margin_y7,
                            y8=margin_y8,
                            y9=margin_y9,
-                           y10=margin_y10)
+                           y10=margin_y10,
+                        terminal=margin_terminal)
 
   # Calculate EBIT
   ebit_initial <- ebit
@@ -784,6 +855,7 @@ get_growth_flow <- function(revenue,
   ebit_y8 <- revenues_y8*margin_y8
   ebit_y9 <- revenues_y9*margin_y9
   ebit_y10 <- revenues_y10*margin_y10
+  ebit_terminal <- revenues_terminal*margin_terminal
   ebit_10_years <- c(ebit_initial=ebit_initial,
                      y1=ebit_y1,
                      y2=ebit_y2,
@@ -794,7 +866,8 @@ get_growth_flow <- function(revenue,
                      y7=ebit_y7,
                      y8=ebit_y8,
                      y9=ebit_y9,
-                     y10=ebit_y10)
+                     y10=ebit_y10,
+                     terminal=ebit_terminal)
 
   # Calculate NOL
   nol_initial <- nol
@@ -808,6 +881,7 @@ get_growth_flow <- function(revenue,
   nol_y8 <- round(get_nol(nol=nol_y7, ebit = ebit_y8),0)
   nol_y9 <- round(get_nol(nol=nol_y8, ebit = ebit_y9),0)
   nol_y10 <- round(get_nol(nol=nol_y9, ebit = ebit_y10),0)
+  nol_terminal <- round(get_nol(nol=nol_y10, ebit = ebit_terminal),0)
   nol_10_years <- c(nol_initial=nol_initial,
                     y1=nol_y1,
                     y2=nol_y2,
@@ -818,7 +892,8 @@ get_growth_flow <- function(revenue,
                     y7=nol_y7,
                     y8=nol_y8,
                     y9=nol_y9,
-                    y10=nol_y10)
+                    y10=nol_y10,
+                    terminal=nol_terminal)
 
   # Calculate taxes
   tax_y1 <- get_growth_taxes(ebit=ebit_y1, last_nol=nol,
@@ -851,9 +926,12 @@ get_growth_flow <- function(revenue,
   tax_y10 <- get_growth_taxes(ebit=ebit_y10, last_nol=nol_y9,
                            marginal_tax = tax_margin)
 
+  tax_terminal <- get_growth_taxes(ebit=ebit_terminal, last_nol=nol_y10,
+                           marginal_tax = tax_margin)
+
   tax_10_years <- c(initial_tax=0, y1=tax_y1, y2=tax_y2, y3=tax_y3,
                     y4=tax_y4, y5=tax_y5, y6=tax_y6, y7=tax_y7, y8=tax_y8,
-                    y9=tax_y9, y10=tax_y10)
+                    y9=tax_y9, y10=tax_y10, terminal=tax_terminal)
 
   # Calculate After-tax EBIT
   initial_tax_ebit <- ebit_initial
@@ -867,15 +945,17 @@ get_growth_flow <- function(revenue,
   tax_ebit_y8 <- ebit_y8 - tax_y8
   tax_ebit_y9 <- ebit_y9 - tax_y9
   tax_ebit_y10 <- ebit_y10 - tax_y10
+  tax_ebit_terminal <- ebit_terminal - tax_terminal
   tax_ebit_10_years <- c(initial_tax_ebit=initial_tax_ebit,
                              y1=tax_ebit_y1, y2=tax_ebit_y2,
                              y3=tax_ebit_y3, y4=tax_ebit_y4,
                              y5=tax_ebit_y5, y6=tax_ebit_y6,
                              y7=tax_ebit_y7, y8=tax_ebit_y8,
-                             y9=tax_ebit_y9, y10=tax_ebit_y10)
+                             y9=tax_ebit_y9, y10=tax_ebit_y10,
+                         terminal=tax_ebit_terminal)
 
-  # Calculate ROIC
-  initial_fcff <- 0
+  # Calculate FCFF
+  initial_fcff <- initial_tax_ebit - current_reinv
   fcff_y1 <- tax_ebit_y1 - revin_y1
   fcff_y2 <- tax_ebit_y2 - revin_y2
   fcff_y3 <- tax_ebit_y3 - revin_y3
@@ -886,24 +966,228 @@ get_growth_flow <- function(revenue,
   fcff_y8 <- tax_ebit_y8 - revin_y8
   fcff_y9 <- tax_ebit_y9 - revin_y9
   fcff_y10 <- tax_ebit_y10 - revin_y10
+  fcff_terminal <- tax_ebit_terminal - revin_terminal
   fcff_10_years <- c(initial_roic=initial_fcff,
                              y1=fcff_y1, y2=fcff_y2,
                              y3=fcff_y3, y4=fcff_y4,
                              y5=fcff_y5, y6=fcff_y6,
                              y7=fcff_y7, y8=fcff_y8,
-                             y9=fcff_y9, y10=fcff_y10)
+                             y9=fcff_y9, y10=fcff_y10,
+                     terminal=fcff_terminal)
 
+  # Calculate tax rate
+  initial_tax <- 0
+  tax_y1 <- round(1 - tax_ebit_y1 / ebit_y1,3)
+  tax_y2 <- round(1 - tax_ebit_y2 / ebit_y2,3)
+  tax_y3 <- round(1 - tax_ebit_y3 / ebit_y3,3)
+  tax_y4 <- round(1 - tax_ebit_y4 / ebit_y4,3)
+  tax_y5 <- round(1 - tax_ebit_y5 / ebit_y5,3)
+  tax_y6 <- round(1 - tax_ebit_y6 / ebit_y6,3)
+  tax_y7 <- round(1 - tax_ebit_y7 / ebit_y7,3)
+  tax_y8 <- round(1 - tax_ebit_y8 / ebit_y8,3)
+  tax_y9 <- round(1 - tax_ebit_y9 / ebit_y9,3)
+  tax_y10 <- round(1 - tax_ebit_y10 / ebit_y10,3)
+  terminal_tax <- round(1 - tax_ebit_terminal / ebit_terminal,3)
+  taxes <- c(initial_tax=initial_tax, y1=tax_y1,
+                  y2=tax_y2, y3=tax_y3, y4=tax_y4,
+                  y5=tax_y5, y6=tax_y6, y7=tax_y7,
+                  y8=tax_y8, y9=tax_y9, y10=tax_y10,
+                  terminal_tax=terminal_tax)
 
-  tibble(revenues = revenues_10_years,
+  # Calculate beta
+  initial_beta <- round(bottom_beta,2)
+  beta_y1 <- round(bottom_beta,2)
+  beta_y2 <- round(bottom_beta,2)
+  beta_y3 <- round(bottom_beta,2)
+  beta_y4 <- round(bottom_beta,2)
+  beta_y5 <- round(bottom_beta,2)
+  beta_y6 <- round(beta_y5+((terminal_beta-beta_y5)/5)*(6-5),2)
+  beta_y7 <- round(beta_y6+((terminal_beta-beta_y6)/5)*(7-5),2)
+  beta_y8 <- round(beta_y7+((terminal_beta-beta_y7)/5)*(8-5),2)
+  beta_y9 <- round(beta_y8+((terminal_beta-beta_y8)/5)*(9-5),2)
+  beta_y10 <- round(beta_y9+((terminal_beta-beta_y9)/5)*(10-5),2)
+  beta_terminal <- round(terminal_beta,2)
+  betas <- c(initial_beta=initial_beta, y1=beta_y1,
+                  y2=beta_y2, y3=beta_y3, y4=beta_y4,
+                  y5=beta_y5, y6=beta_y6, y7=beta_y7,
+                  y8=beta_y8, y9=beta_y9, y10=beta_y10,
+                  terminal_beta=terminal_beta)
+
+  # Calculate debt to capital ratio
+  initial_dc <- round(debt_to_capital,2)
+  dc_y1 <- round(debt_to_capital,2)
+  dc_y2 <- round(debt_to_capital,2)
+  dc_y3 <- round(debt_to_capital,2)
+  dc_y4 <- round(debt_to_capital,2)
+  dc_y5 <- round(debt_to_capital,2)
+  dc_y6 <- round(dc_y5+(target_debt_to_capital-dc_y5)/(10-6+1),2)
+  dc_y7 <- round(dc_y6+(target_debt_to_capital-dc_y6)/(10-7+1),2)
+  dc_y8 <- round(dc_y7+(target_debt_to_capital-dc_y7)/(10-8+1),2)
+  dc_y9 <- round(dc_y8+(target_debt_to_capital-dc_y8)/(10-9+1),2)
+  dc_y10 <- round(dc_y9+(target_debt_to_capital-dc_y9)/(10-10+1),2)
+  dc_terminal <- round(target_debt_to_capital,2)
+  dcs <- c(initial_dc=initial_dc, y1=dc_y1,
+                  y2=dc_y2, y3=dc_y3, y4=dc_y4,
+                  y5=dc_y5, y6=dc_y6, y7=dc_y7,
+                  y8=dc_y8, y9=dc_y9, y10=dc_y10,
+                  terminal_dc=dc_terminal)
+
+  # Calculate Cost of Equity
+  initial_ce <- round(risk_free + bottom_beta*risk_premium,3)
+  ce_y1 <- round(risk_free + bottom_beta*risk_premium,3)
+  ce_y2 <- round(risk_free + bottom_beta*risk_premium,3)
+  ce_y3 <- round(risk_free + bottom_beta*risk_premium,3)
+  ce_y4 <- round(risk_free + bottom_beta*risk_premium,3)
+  ce_y5 <- round(risk_free + bottom_beta*risk_premium,3)
+  ce_y6 <- round(risk_free + beta_y6*risk_premium,3)
+  ce_y7 <- round(risk_free + beta_y7*risk_premium,3)
+  ce_y8 <- round(risk_free + beta_y8*risk_premium,3)
+  ce_y9 <- round(risk_free + beta_y9*risk_premium,3)
+  ce_y10 <- round(risk_free + beta_y10*risk_premium,3)
+  ce_terminal <- round(risk_free + beta_terminal*risk_premium, 3)
+  cost_equities <- c(initial_ce=initial_ce, y1=ce_y1,
+                  y2=ce_y2, y3=ce_y3, y4=ce_y4,
+                  y5=ce_y5, y6=ce_y6, y7=ce_y7,
+                  y8=ce_y8, y9=ce_y9, y10=ce_y10,
+                  terminal_ce=ce_terminal)
+
+  # Calculate Cost of Debt
+  initial_cc <- round(cost_debt,3)
+  cc_y1 <- round(initial_cc,3)
+  cc_y2 <- round(initial_cc,3)
+  cc_y3 <- round(initial_cc,3)
+  cc_y4 <- round(initial_cc,3)
+  cc_y5 <- round(initial_cc,3)
+  cc_y6 <- round(cc_y5+(target_cost_debt-cc_y5)/(10-6+1),3)
+  cc_y7 <- round(cc_y6+(target_cost_debt-cc_y6)/(10-7+1),3)
+  cc_y8 <- round(cc_y7+(target_cost_debt-cc_y7)/(10-8+1),3)
+  cc_y9 <- round(cc_y8+(target_cost_debt-cc_y8)/(10-9+1),3)
+  cc_y10 <- round(cc_y9+(target_cost_debt-cc_y9)/(10-10+1),3)
+  cc_terminal <- round(target_cost_debt,3)
+  cds <- c(initial_cc=initial_cc, y1=cc_y1,
+                  y2=cc_y2, y3=cc_y3, y4=cc_y4,
+                  y5=cc_y5, y6=cc_y6, y7=cc_y7,
+                  y8=cc_y8, y9=cc_y9, y10=cc_y10,
+                  terminal_cc=cc_terminal)
+
+  # Calculate After-tax Cost of Debt
+  initial_tcc <-round(initial_cc*(1-initial_tax),3)
+  tcc_y1 <- round(cc_y1*(1-tax_y1),3)
+  tcc_y2 <- round(cc_y2*(1-tax_y2),3)
+  tcc_y3 <- round(cc_y3*(1-tax_y3),3)
+  tcc_y4 <- round(cc_y4*(1-tax_y4),3)
+  tcc_y5 <- round(cc_y5*(1-tax_y5),3)
+  tcc_y6 <- round(cc_y6*(1-tax_y6),3)
+  tcc_y7 <- round(cc_y7*(1-tax_y7),3)
+  tcc_y8 <- round(cc_y8*(1-tax_y8),3)
+  tcc_y9 <- round(cc_y9*(1-tax_y9),3)
+  tcc_y10 <- round(cc_y10*(1-tax_y10),3)
+  tcc_terminal <- round(cc_terminal*(1-terminal_tax),3)
+  tccs <- c(initial_tcc=initial_tcc, y1=tcc_y1,
+                  y2=tcc_y2, y3=tcc_y3, y4=tcc_y4,
+                  y5=tcc_y5, y6=tcc_y6, y7=tcc_y7,
+                  y8=tcc_y8, y9=tcc_y9, y10=tcc_y10,
+                  terminal_tcc=tcc_terminal)
+
+  # Calculate Cost of Capital
+  initial_cost_capital <- round(initial_ce*(1-initial_dc)+initial_tcc*initial_dc,3)
+  cost_capital_y1 <- round(ce_y1*(1-dc_y1)+tcc_y1*dc_y1,3)
+  cost_capital_y2 <- round(ce_y2*(1-dc_y2)+tcc_y2*dc_y2,3)
+  cost_capital_y3 <- round(ce_y3*(1-dc_y3)+tcc_y3*dc_y3,3)
+  cost_capital_y4 <- round(ce_y4*(1-dc_y4)+tcc_y4*dc_y4,3)
+  cost_capital_y5 <- round(ce_y5*(1-dc_y5)+tcc_y5*dc_y5,3)
+  cost_capital_y6 <- round(ce_y6*(1-dc_y6)+tcc_y6*dc_y6,3)
+  cost_capital_y7 <- round(ce_y7*(1-dc_y7)+tcc_y7*dc_y7,3)
+  cost_capital_y8 <- round(ce_y8*(1-dc_y8)+tcc_y8*dc_y8,3)
+  cost_capital_y9 <- round(ce_y9*(1-dc_y9)+tcc_y9*dc_y9,3)
+  cost_capital_y10 <- round(ce_y10*(1-dc_y10)+tcc_y10*dc_y10,3)
+  terminal_cost_capital <- round(ce_terminal*(1-dc_terminal)+tcc_terminal*dc_terminal,3)
+  cost_capitals <- c(initial_cost_capital=initial_cost_capital, y1=cost_capital_y1,
+                  y2=cost_capital_y2, y3=cost_capital_y3, y4=cost_capital_y4,
+                  y5=cost_capital_y5, y6=cost_capital_y6, y7=cost_capital_y7,
+                  y8=cost_capital_y8, y9=cost_capital_y9, y10=cost_capital_y10,
+                  terminal=terminal_cost_capital)
+
+  # Calculate PVs
+  ## Calculate terminal value
+  tv <- get_tv(terminal_nol = nol_terminal,
+               terminal_fcff = fcff_terminal,
+               cost_capital = terminal_cost_capital,
+               marginal_tax = tax_margin,
+               terminal_growth = revenue_growth_trend$terminal)
+
+  ## Calculate cumulative cost of capital
+  cumm_cost_cap_1 <- 1+cost_capital_y1
+  cumm_cost_cap_2 <- cumm_cost_cap_1*(1+cost_capital_y2)
+  cumm_cost_cap_3 <- cumm_cost_cap_2*(1+cost_capital_y3)
+  cumm_cost_cap_4 <- cumm_cost_cap_3*(1+cost_capital_y4)
+  cumm_cost_cap_5 <- cumm_cost_cap_4*(1+cost_capital_y5)
+  cumm_cost_cap_6 <- cumm_cost_cap_5*(1+cost_capital_y6)
+  cumm_cost_cap_7 <- cumm_cost_cap_6*(1+cost_capital_y7)
+  cumm_cost_cap_8 <- cumm_cost_cap_7*(1+cost_capital_y8)
+  cumm_cost_cap_9 <- cumm_cost_cap_8*(1+cost_capital_y9)
+  cumm_cost_cap_10 <- cumm_cost_cap_9*(1+cost_capital_y10)
+  cummulative_cost_capital <- c(cumm_cost_cap_1, cumm_cost_cap_2,
+                                cumm_cost_cap_3, cumm_cost_cap_4,
+                                cumm_cost_cap_5, cumm_cost_cap_6,
+                                cumm_cost_cap_7, cumm_cost_cap_8,
+                                cumm_cost_cap_9, cumm_cost_cap_10)
+  ## Calculate FCFF NPV
+  npv_fcff_y1 <- fcff_y1 / cumm_cost_cap_1
+  npv_fcff_y2 <- fcff_y2 / cumm_cost_cap_2
+  npv_fcff_y3 <- fcff_y3 / cumm_cost_cap_3
+  npv_fcff_y4 <- fcff_y4 / cumm_cost_cap_4
+  npv_fcff_y5 <- fcff_y5 / cumm_cost_cap_5
+  npv_fcff_y6 <- fcff_y6 / cumm_cost_cap_6
+  npv_fcff_y7 <- fcff_y7 / cumm_cost_cap_7
+  npv_fcff_y8 <- fcff_y8 / cumm_cost_cap_8
+  npv_fcff_y9 <- fcff_y9 / cumm_cost_cap_9
+  npv_fcff_y10 <- fcff_y10 / cumm_cost_cap_10
+  fcff_npvs <- c(npv_fcff_y1, npv_fcff_y2, npv_fcff_y3, npv_fcff_y4,
+                  npv_fcff_y5, npv_fcff_y6, npv_fcff_y7, npv_fcff_y8,
+                  npv_fcff_y9, npv_fcff_y10)
+  fcff_sum <- sum(npv_fcff_y1, npv_fcff_y2, npv_fcff_y3, npv_fcff_y4,
+                  npv_fcff_y5, npv_fcff_y6, npv_fcff_y7, npv_fcff_y8,
+                  npv_fcff_y9, npv_fcff_y10)
+
+  ## Calculate Terminal value NPV
+  npv_tv <- tv / cumm_cost_cap_10
+
+  ## Calculate value of operating assets
+  operating_assets <- npv_tv + fcff_sum
+
+  ## Calculate value of firm
+  firm_value <- operating_assets + cash
+
+  ## Calculate value of equity
+  equity_value <- firm_value - debt
+
+  ## Calculate Value / Share
+  value_per_share <- equity_value/(stock_out+option_out)
+
+  list(general = tibble(revenues = revenues_10_years,
          revenues_increase = rev_increase_10_years,
          margins = margins_10_years,
          ebit = ebit_10_years,
          taxes_paid = tax_10_years,
          after_tax_ebit = tax_ebit_10_years,
          fcff = fcff_10_years,
+         beta = betas,
+         debt_to_capital = dcs,
+         cost_debt = cds,
+         after_tax_cost_debt=tccs,
+         cost_capital = cost_capitals,
          nol = nol_10_years,
          revinvestment = revin_10_years,
-         capital_invested = cap_10_years)
+         capital_invested = cap_10_years,
+         taxes_percent = taxes,
+         cost_equity = cost_equities), terminal_value=tv,
+       cummulative_cost_capital = cummulative_cost_capital,
+       fcff_npv = fcff_npvs,
+       fcff_sum = fcff_sum,
+       tv_npv = npv_tv,
+       stock_price = stock_price,
+       value_per_share = value_per_share)
 
 
 }
@@ -937,7 +1221,51 @@ get_growth_taxes <- function(ebit, last_nol, marginal_tax) {
     }
 }
 
+#' Calculate the first 5Y cost of equity, debt ratio, and cost of capital
+#' @description Calculate the first 5Y cost of equity, capital, and debt ratio
+#' @param risk_free **Number** Risk free rate
+#' @param risk_premium **Number** Risk premium
+#' @param beta **Number** Approximate firm beta
+#' @param debt **Number** Firm long and short term debt
+#' @param shares_out **Number** Number of shares outstanding
+#' @param stock_price **Number** Current stock price
+#' @param cost_debt **Number** Synthetic cost of debt (CCC firm)
+#' @return **Number** with bottom-up beta
+#' @examples
+#' beta <- get_beta(risk_free=0.035, risk_premium=0.041, beta=0.77, debt=143, firm_tax=0.35, shares_out=81, stock_price=120, cost_debt=0.08)
+#' @export
+#' @importFrom tibble tibble
+get_beta_start_up <- function(beta, risk_free, risk_premium, debt,
+                     shares_out, stock_price, cost_debt) {
+  cost_equity <- risk_free + beta * risk_premium
+  market_cap <- shares_out*stock_price
+  debt_ratio <- debt / (debt + market_cap)
+  cost_capital <- cost_equity*(1-debt_ratio) + cost_debt*(1-0)*debt_ratio
+  list(cost_equity=round(cost_equity,2),
+       debt_to_capital=round(debt_ratio,2),
+       cost_capital=round(cost_capital,2),
+       beta=beta)
+}
 
+#' Helper function for get_growth_value
+#' @description Calculate terminal value
+#' @param terminal_nol Terminal NOL
+#' @param terminal_fcff Terminal FCFF
+#' @param cost_capital Terminal cost of capital
+#' @param marginal_tax Marginal tax rate
+#' @param terminal_growth Terminal growth rate
+#' @return Number Terminal value
+get_tv <- function(terminal_nol, terminal_fcff,
+                   cost_capital, marginal_tax,
+                   terminal_growth) {
+  if (terminal_nol > 0) {
+    formula_1 <- terminal_fcff/(cost_capital-terminal_growth)
+    formula_2 <- terminal_nol*marginal_tax
+    round(formula_1+formula_2,0)
+  } else {
+    round(terminal_fcff/(cost_capital-terminal_growth),0)
+  }
+}
 
 
 
