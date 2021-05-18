@@ -10,7 +10,7 @@
 #' # Calculate unamortized portion of R&D
 #' unamortized_rnd <- get_amortization_2(cash_flow, amortized=FALSE)
 #' # Calculate amortized portion of R&D
-#' amortized_rnd <- get_amortization_2(cash_flow)
+#' amortized_rnd <- get_amortization_2(cash_flow, amortized=TRUE)
 #' @export
 get_amortization_2 <- function(cash_flows, amortized) {
   # Calculate unamortized portion
@@ -40,7 +40,7 @@ get_amortization_2 <- function(cash_flows, amortized) {
 #' # Calculate unamortized portion of R&D
 #' unamortized_rnd <- get_amortization_3(cash_flow, amortized=FALSE)
 #' # Calculate amortized portion of R&D
-#' amortized_rnd <- get_amortization_3(cash_flow)
+#' amortized_rnd <- get_amortization_3(cash_flow, amortized=TRUE)
 #' @export
 get_amortization_3 <- function(cash_flows, amortized) {
   # Calculate unamortized portion
@@ -72,7 +72,7 @@ get_amortization_3 <- function(cash_flows, amortized) {
 #' # Calculate unamortized portion of R&D
 #' unamortized_rnd <- get_amortization_5(cash_flow, amortized=FALSE)
 #' # Calculate amortized portion of R&D
-#' amortized_rnd <- get_amortization_5(cash_flow)
+#' amortized_rnd <- get_amortization_5(cash_flow, amortized=TRUE)
 #' @export
 get_amortization_5 <- function(cash_flows, amortized) {
   # Calculate unamortized portion
@@ -109,7 +109,7 @@ get_amortization_5 <- function(cash_flows, amortized) {
 #' # Calculate unamortized portion of R&D
 #' unamortized_rnd <- get_amortization_10(cash_flow, amortized=FALSE)
 #' # Calculate amortized portion of R&D
-#' amortized_rnd <- get_amortization_10(cash_flow)
+#' amortized_rnd <- get_amortization_10(cash_flow, amortized=TRUE)
 #' @export
 get_amortization_10 <- function(cash_flows, amortized) {
   # Calculate unamortized portion
