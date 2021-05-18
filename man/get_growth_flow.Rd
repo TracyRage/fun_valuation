@@ -84,15 +84,15 @@ Calculate After-tax EBIT and FCFF flows and NPV (high growth firm).
 }
 \examples{
 # Revenues growth in \%
-revenues_growth <- list(y1=0.55, y2=0.45, y3=0.40, y4=0.35, y5=0.30,
-y6=0.20, y7=0.15, y8=0.12, y9=0.08, y10=0.06)
-res <- get_growth_flow(revenue = 1246,
-revenue_growth_trend = revenues_growth,
-initial_margin = -0.0418, final_margin = 0.14,
-tax_margin = 0.375, ebit = -52, nol = 1289,
-sales_capital_ratio = 0.5, current_capital_investment = 1000,
-debt_to_capital=0.04, bottom_beta=1.37,
-terminal_beta=1.1, target_debt_capital=0.44, debt=143, debt_cost=0.05, stock_price=80,
-stock_out=130, risk_free=0.015, risk_premium=0.045, target_cost_debt=0.08, option_out=13.805,
-cash=196)
+# revenues_growth <- list(y1=0.55, y2=0.45, y3=0.40, y4=0.35, y5=0.30,
+# y6=0.20, y7=0.15, y8=0.12, y9=0.08, y10=0.06)
+# res <- get_growth_flow(revenue = 1246,
+# revenue_growth_trend = revenues_growth,
+# initial_margin = -0.0418, final_margin = 0.14,
+# tax_margin = 0.375, ebit = -52, nol = 1289,
+# sales_capital_ratio = 0.5, current_capital_investment = 1000,
+# debt_to_capital=0.04, bottom_beta=1.37,
+# terminal_beta=1.1, target_debt_capital=0.44, debt=143, debt_cost=0.05, stock_price=80,
+# stock_out=130, risk_free=0.015, risk_premium=0.045, target_cost_debt=0.08, option_out=13.805,
+# cash=196)
 }

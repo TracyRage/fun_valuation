@@ -20,5 +20,5 @@ get_rr(net_capex, working_capital, after_tax_ebit)
 Calculate Reinvestment Rate (w/ adjusted EBIT).
 }
 \examples{
-get_rr(net_capex=100, working_capital=100, after_tax_ebit=200)
+# get_rr(net_capex=100, working_capital=100, after_tax_ebit=200)
 }

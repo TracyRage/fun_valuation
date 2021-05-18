@@ -36,5 +36,5 @@ get_beta_start_up(
 Calculate the first 5Y cost of equity, capital, and debt ratio
 }
 \examples{
-beta <- get_beta(risk_free=0.035, risk_premium=0.041, beta=0.77, debt=143, firm_tax=0.35, shares_out=81, stock_price=120, cost_debt=0.08)
+# beta <- get_beta_start_up(risk_free=0.035, risk_premium=0.041, beta=0.77, debt=143, shares_out=81, stock_price=120, cost_debt=0.08)
 }

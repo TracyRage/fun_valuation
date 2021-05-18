@@ -33,5 +33,5 @@ get_beta(
 Calculate unlevered and levered beta.
 }
 \examples{
-beta <- get_beta(average_beta=0.77, industry_tax=0.05, average_de=0.083, firm_tax=0.35, firm_debt=333, firm_equity=444)
+# beta <- get_beta(average_beta=0.77, industry_tax=0.05, average_de=0.083, firm_tax=0.35, firm_debt=333, firm_equity=444)
 }

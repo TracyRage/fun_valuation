@@ -42,7 +42,7 @@ get_stable_operating_assets(
 Calculate FCFF (w/ After Tax EBIT)
 }
 \examples{
-get_fcff(after_tax_ebit=2481, depreciation=1914, capex=1659,
-working_capital=1119, wacc=0.035, growth=0.03, cash=111, debt=475,
-current_share_price=34, share_out=111)
+# get_fcff(after_tax_ebit=2481, depreciation=1914, capex=1659,
+# working_capital=1119, wacc=0.035, growth=0.03, cash=111, debt=475,
+#current_share_price=34, share_out=111)
 }

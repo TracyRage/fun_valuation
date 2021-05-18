@@ -19,9 +19,9 @@ Capitalize R&D investments 10 years back (Chemical, Auto/Truck, Drug, Machine, M
 }
 \examples{
 # List of cash flows
-cash_flow <- list(current=123, y1=333, y2=444, y3=444, y4=555, y5=666, y6=345, y7=556, y8=954, y9=3435, y10=111)
+# cash_flow <- list(current=123, y1=333, y2=444, y3=444, y4=555, y5=666, y6=345, y7=556, y8=954, y9=3435, y10=111)
 # Calculate unamortized portion of R&D
-unamortized_rnd <- get_amortization_10(cash_flow, amortized=FALSE)
+# unamortized_rnd <- get_amortization_10(cash_flows=cash_flow, amortized=FALSE)
 # Calculate amortized portion of R&D
-amortized_rnd <- get_amortization_10(cash_flow)
+# amortized_rnd <- get_amortization_10(cash_flows=cash_flow, amortized=TRUE)
 }

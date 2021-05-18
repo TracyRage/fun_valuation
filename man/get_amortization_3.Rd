@@ -19,9 +19,9 @@ Capitalize R&D investments three years back (Retail tech service, Apparel, Enter
 }
 \examples{
 # List of cash flows
-cash_flow <- list(current=123, y1=333, y2=444, y3=555)
+# cash_flow <- list(current=123, y1=333, y2=444, y3=555)
 # Calculate unamortized portion of R&D
-unamortized_rnd <- get_amortization_3(cash_flow, amortized=FALSE)
+# unamortized_rnd <- get_amortization_3(cash_flows=cash_flow, amortized=FALSE)
 # Calculate amortized portion of R&D
-amortized_rnd <- get_amortization_3(cash_flow)
+# amortized_rnd <- get_amortization_3(cash_flows=cash_flow, amortized=TRUE)
 }

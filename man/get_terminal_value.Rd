@@ -22,5 +22,5 @@ get_terminal_value(ebit_year_five, stable_growth, wacc, roic)
 Calculate Value of Terminal Value (2-stage growth).
 }
 \examples{
-get_terminal_value(ebit_year_five=1300, roic=0.046, wacc=0.1, stable_growth=0.03)
+# get_terminal_value(ebit_year_five=1300, roic=0.046, wacc=0.1, stable_growth=0.03)
 }

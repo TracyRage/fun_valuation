@@ -18,5 +18,5 @@ get_stable_growth(reinvestment_rate, roic)
 Calculate expected growth rate (w/ stable ROIC across years)
 }
 \examples{
-get_stable_growth(reinvestment_rate=0.4, roic=0.2)
+# get_stable_growth(reinvestment_rate=0.4, roic=0.2)
 }

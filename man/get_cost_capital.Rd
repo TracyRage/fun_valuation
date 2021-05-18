@@ -24,5 +24,5 @@ get_cost_capital(marginal_tax, cost_equity, cost_debt, equity, debt)
 Calculate Cost of Capital.
 }
 \examples{
-cost_equity <- get_cost_debt(cost_equity=0.107, cost_debt=0.0929, marginal_tax=0.35, equity=500, debt=300)
+# cost_equity <- get_cost_debt(cost_equity=0.107, cost_debt=0.0929, marginal_tax=0.35, equity=500, debt=300)
 }

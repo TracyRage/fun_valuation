@@ -36,6 +36,6 @@ get_operating_assets(
 Calculate Value of Operating Assets (2-stage growth).
 }
 \examples{
-get_operating_asses(npv_fcff=111, terminal_value=222, wacc=0.065, cash=111, debt=467,
-current_share_price=34, share_out=111)
+# get_operating_asses(npv_fcff=111, terminal_value=222, wacc=0.065, cash=111, debt=467,
+# current_share_price=34, share_out=111)
 }

@@ -19,9 +19,9 @@ Capitalize R&D investments five years back (Light manufacturing, Aluminum, Auto 
 }
 \examples{
 # List of cash flows
-cash_flow <- list(current=123, y1=333, y2=444, y3=444, y4=555, y5=666)
+# cash_flow <- list(current=123, y1=333, y2=444, y3=444, y4=555, y5=666)
 # Calculate unamortized portion of R&D
-unamortized_rnd <- get_amortization_5(cash_flow, amortized=FALSE)
+# unamortized_rnd <- get_amortization_5(cash_flows=cash_flow, amortized=FALSE)
 # Calculate amortized portion of R&D
-amortized_rnd <- get_amortization_5(cash_flow)
+# amortized_rnd <- get_amortization_5(cash_flows=cash_flow, amortized=TRUE)
 }

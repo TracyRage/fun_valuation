@@ -36,5 +36,5 @@ get_roe(
 Calculate Return on Equity
 }
 \examples{
-ROE <- get_roe(income=333, goodwill=5555, equity=4555)
+# ROE <- get_roe(income=333, goodwill=5555, equity=4555)
 }

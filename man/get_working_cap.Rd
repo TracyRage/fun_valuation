@@ -20,5 +20,5 @@ get_working_cap(inventory, accounts_receive, accounts_payable)
 Calculate working capital.
 }
 \examples{
-get_working_cap(inventory=40, account_receive=80, accounts_payable=40)
+# get_working_cap(inventory=40, account_receive=80, accounts_payable=40)
 }

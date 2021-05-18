@@ -20,5 +20,5 @@ get_cost_equity(risk_free, beta, risk_premium)
 Calculate Cost of Equity.
 }
 \examples{
-cost_equity <- get_cost_equity(risk_free=0.015, beta=0.71, rick_premium=0.041)
+# cost_equity <- get_cost_equity(risk_free=0.015, beta=0.71, rick_premium=0.041)
 }

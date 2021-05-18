@@ -20,5 +20,5 @@ get_cost_debt(risk_free, company_spread, country_spread = 0)
 Calculate Cost of Debt based on interest coverage rate (EBIT/Interest expense).
 }
 \examples{
-cost_equity <- get_cost_debt(risk_free=0.015, company_spread=0.01)
+# cost_debt <- get_cost_debt(risk_free=0.015, company_spread=0.01)
 }

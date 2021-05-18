@@ -61,6 +61,6 @@ get_roic(
 Calculate Return on Invested Capital.
 }
 \examples{
-roic <- get_roic(ebit=2033, eff_tax=0.2, short_debt=333,
-                 long_debt=4567, equity=4444, goodwill=333, cash=345)
+# roic <- get_roic(ebit=2033, eff_tax=0.2, short_debt=333,
+#                 long_debt=4567, equity=4444, goodwill=333, cash=345)
 }

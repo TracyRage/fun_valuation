@@ -22,14 +22,14 @@ Calculate lease adjustment to EBIT (for ROIC calculation).
 \examples{
 # See get_leases function output for debt_value_lease and lease_embedded_years
 # Current year leases
-current_lease <- 555
+# current_lease <- 555
 # Paid leases 5Y in the future
-cash_flow <- list(y1=333, y2=444, y3=444, y4=555, y5=666)
+# cash_flow <- list(y1=333, y2=444, y3=444, y4=555, y5=666)
 # Paid leases beyond 5Y
-beyond <- 45555
+# beyond <- 45555
 # Indicate the cost of debt (firm rating OR synthetic rating)
-cost_debt <- 0.05
+# cost_debt <- 0.05
 # Capitalize future leases
-cap_leases <- get_leases(cash_flow, beyond, cost_debt)
-lease_adj <- lease_adjustment(current_lease, cap_leases$debt_value_lease, cap_leases$years_embedded)
+# cap_leases <- get_leases(cash_flow, beyond, cost_debt)
+# lease_adj <- lease_adjustment(current_lease, cap_leases$debt_value_lease, cap_leases$years_embedded)
 }

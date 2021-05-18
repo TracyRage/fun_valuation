@@ -24,5 +24,5 @@ get_cash_flow(after_tax_ebit, reinvestment_rate, time_period, wacc, growth)
 Calculate After-tax EBIT and FCFF flows and NPV (2-stage growth)
 }
 \examples{
-cash_flows <- get_cash_flow(after_tax_ebit=333, reinvestment_rate=0.3, time_period=c(1,2,3,4,5), wacc=0.08, growth=0.03)
+# cash_flows <- get_cash_flow(after_tax_ebit=333, reinvestment_rate=0.3, time_period=c(1,2,3,4,5), wacc=0.08, growth=0.03)
 }

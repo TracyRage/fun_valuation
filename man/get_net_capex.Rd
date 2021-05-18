@@ -39,5 +39,5 @@ get_net_capex(
 Calculate and adjust Net Capital Expenditure.
 }
 \examples{
-get_net_capex(capex=584, depreciation=484)
+# get_net_capex(capex=584, depreciation=484)
 }

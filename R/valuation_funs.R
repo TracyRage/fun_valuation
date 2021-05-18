@@ -6,11 +6,11 @@
 #' @return **Number** Amortized or unamortized portion of R&D
 #' @examples
 #' # List of cash flows
-#' cash_flow <- list(current=123, y1=333, y2=444)
+#' # cash_flow <- list(current=123, y1=333, y2=444)
 #' # Calculate unamortized portion of R&D
-#' unamortized_rnd <- get_amortization_2(cash_flow, amortized=FALSE)
+#' # unamortized_rnd <- get_amortization_2(cash_flows=cash_flow, amortized=FALSE)
 #' # Calculate amortized portion of R&D
-#' amortized_rnd <- get_amortization_2(cash_flow, amortized=TRUE)
+#' # amortized_rnd <- get_amortization_2(cash_flows=cash_flow, amortized=TRUE)
 #' @export
 get_amortization_2 <- function(cash_flows, amortized) {
   # Calculate unamortized portion
@@ -36,11 +36,11 @@ get_amortization_2 <- function(cash_flows, amortized) {
 #' @return **Number** Amortized or unamortized portion of R&D
 #' @examples
 #' # List of cash flows
-#' cash_flow <- list(current=123, y1=333, y2=444, y3=555)
+#' # cash_flow <- list(current=123, y1=333, y2=444, y3=555)
 #' # Calculate unamortized portion of R&D
-#' unamortized_rnd <- get_amortization_3(cash_flow, amortized=FALSE)
+#' # unamortized_rnd <- get_amortization_3(cash_flows=cash_flow, amortized=FALSE)
 #' # Calculate amortized portion of R&D
-#' amortized_rnd <- get_amortization_3(cash_flow, amortized=TRUE)
+#' # amortized_rnd <- get_amortization_3(cash_flows=cash_flow, amortized=TRUE)
 #' @export
 get_amortization_3 <- function(cash_flows, amortized) {
   # Calculate unamortized portion
@@ -68,11 +68,11 @@ get_amortization_3 <- function(cash_flows, amortized) {
 #' @return **Number** Amortized or unamortized portion of R&D
 #' @examples
 #' # List of cash flows
-#' cash_flow <- list(current=123, y1=333, y2=444, y3=444, y4=555, y5=666)
+#' # cash_flow <- list(current=123, y1=333, y2=444, y3=444, y4=555, y5=666)
 #' # Calculate unamortized portion of R&D
-#' unamortized_rnd <- get_amortization_5(cash_flow, amortized=FALSE)
+#' # unamortized_rnd <- get_amortization_5(cash_flows=cash_flow, amortized=FALSE)
 #' # Calculate amortized portion of R&D
-#' amortized_rnd <- get_amortization_5(cash_flow, amortized=TRUE)
+#' # amortized_rnd <- get_amortization_5(cash_flows=cash_flow, amortized=TRUE)
 #' @export
 get_amortization_5 <- function(cash_flows, amortized) {
   # Calculate unamortized portion
@@ -105,11 +105,11 @@ get_amortization_5 <- function(cash_flows, amortized) {
 #' @return **Number** Amortized or Unamortized portion of R&D
 #' @examples
 #' # List of cash flows
-#' cash_flow <- list(current=123, y1=333, y2=444, y3=444, y4=555, y5=666, y6=345, y7=556, y8=954, y9=3435, y10=111)
+#' # cash_flow <- list(current=123, y1=333, y2=444, y3=444, y4=555, y5=666, y6=345, y7=556, y8=954, y9=3435, y10=111)
 #' # Calculate unamortized portion of R&D
-#' unamortized_rnd <- get_amortization_10(cash_flow, amortized=FALSE)
+#' # unamortized_rnd <- get_amortization_10(cash_flows=cash_flow, amortized=FALSE)
 #' # Calculate amortized portion of R&D
-#' amortized_rnd <- get_amortization_10(cash_flow, amortized=TRUE)
+#' # amortized_rnd <- get_amortization_10(cash_flows=cash_flow, amortized=TRUE)
 #' @export
 get_amortization_10 <- function(cash_flows, amortized) {
   # Calculate unamortized portion
@@ -152,11 +152,11 @@ get_amortization_10 <- function(cash_flows, amortized) {
 #' @return **Number** Amortized or Unamortized portion of Acquisition
 #' @examples
 #' # List of cash flows
-#' cash_flow <- list(current=123, y1=333, y2=444, y3=444, y4=555, y5=666)
+#' # cash_flow <- list(current=123, y1=333, y2=444, y3=444, y4=555, y5=666)
 #' # Calculate unamortized portion of acquisition
-#' unamortized_aq <- get_acquisition(cash_flow, amortized=FALSE)
+#' # unamortized_aq <- get_acquisition(cash_flows=cash_flow, amortized=FALSE)
 #' # Calculate amortized portion of acquisition
-#' amortized_aq <- get_acquisition(cash_flow)
+#' # amortized_aq <- get_acquisition(cash_flows=cash_flow, amortized=FALSE)
 #' @export
 get_acquisition <- function(cash_flows, amortized=TRUE) {
   # Calculate unamortized portion
@@ -189,17 +189,17 @@ get_acquisition <- function(cash_flows, amortized=TRUE) {
 #' @return **List of numbers** Debt value of leases **AND** years embedded in lease
 #' @examples
 #' # Paid leases 5Y in the future
-#' cash_flow <- list(y1=333, y2=444, y3=444, y4=555, y5=666)
+#' # cash_flow <- list(y1=333, y2=444, y3=444, y4=555, y5=666)
 #' # Paid leases beyond 5Y
-#' beyond <- 45555
+#' # beyond <- 45555
 #' # Indicate the cost of debt (firm rating OR synthetic rating)
-#' cost_debt <- 0.05
+#' # cost_debt <- 0.05
 #' # Capitalize future leases
-#' cap_leases <- get_leases(cash_flow, beyond, cost_debt)
+#' # cap_leases <- get_leases(lease_flow=cash_flow, beyond=beyond, cost_debt=cost)
 #' # Capitalized leases
-#' cap_leases$debt_value_lease
+#' # cap_leases$debt_value_lease
 #' # Embedded lease years
-#' cap_leases$years_embedded
+#' # cap_leases$years_embedded
 #' @export
 get_leases <- function(lease_flow, beyond, cost_debt) {
   # Calculate embedded years beyond 6
@@ -250,16 +250,16 @@ get_leases <- function(lease_flow, beyond, cost_debt) {
 #' @examples
 #' # See get_leases function output for debt_value_lease and lease_embedded_years
 #' # Current year leases
-#' current_lease <- 555
+#' # current_lease <- 555
 #' # Paid leases 5Y in the future
-#' cash_flow <- list(y1=333, y2=444, y3=444, y4=555, y5=666)
+#' # cash_flow <- list(y1=333, y2=444, y3=444, y4=555, y5=666)
 #' # Paid leases beyond 5Y
-#' beyond <- 45555
+#' # beyond <- 45555
 #' # Indicate the cost of debt (firm rating OR synthetic rating)
-#' cost_debt <- 0.05
+#' # cost_debt <- 0.05
 #' # Capitalize future leases
-#' cap_leases <- get_leases(cash_flow, beyond, cost_debt)
-#' lease_adj <- lease_adjustment(current_lease, cap_leases$debt_value_lease, cap_leases$years_embedded)
+#' # cap_leases <- get_leases(cash_flow, beyond, cost_debt)
+#' # lease_adj <- lease_adjustment(current_lease, cap_leases$debt_value_lease, cap_leases$years_embedded)
 #' @export
 lease_adjustment <- function(current_lease, debt_value_lease, lease_embedded_years) {
   as.integer(current_lease - debt_value_lease / (lease_embedded_years+5))
@@ -271,14 +271,14 @@ lease_adjustment <- function(current_lease, debt_value_lease, lease_embedded_yea
 #' @param amortized_rnd **Number** Amortized R&D
 #' @return **Number** R&D adjustment for EBIT
 #' @examples
-#' See get_amortization function output for amortized R&D
+#' # See get_amortization function output for amortized R&D
 #' # Current year R&D
-#' current_rnd <- 1771
+#' # current_rnd <- 1771
 #' # R&D spending last five years
-#' cash_flow <- list(current=123, y1=333, y2=444, y3=444, y4=555, y5=666)
+#' # cash_flow <- list(current=123, y1=333, y2=444, y3=444, y4=555, y5=666)
 #' # Calculate amortized portion of R&D
-#' amortized_rnd <- get_amortization_5(cash_flow)
-#' lease_adj <- rnd_adjustment(current_rnd, amortized_rnd)
+#' # amortized_rnd <- get_amortization_5(cash_flow)
+#' # lease_adj <- rnd_adjustment(current_rnd, amortized_rnd)
 #' @export
 rnd_adjustment <- function(current_rnd, amortized_rnd) {
   as.integer(current_rnd-amortized_rnd)
@@ -304,8 +304,8 @@ rnd_adjustment <- function(current_rnd, amortized_rnd) {
 #' @param amortized_rnd **Number** Amortized portion of R&D
 #' @return **Tibble** with ROIC and other parameters
 #' @examples
-#' roic <- get_roic(ebit=2033, eff_tax=0.2, short_debt=333,
-#'                  long_debt=4567, equity=4444, goodwill=333, cash=345)
+#' # roic <- get_roic(ebit=2033, eff_tax=0.2, short_debt=333,
+#' #                 long_debt=4567, equity=4444, goodwill=333, cash=345)
 #' @export
 #' @importFrom tibble tibble
 get_roic <- function(ebit, curr_lease_adj=0, rnd_adj=0, eff_tax,
@@ -348,7 +348,7 @@ get_roic <- function(ebit, curr_lease_adj=0, rnd_adj=0, eff_tax,
 #' @param eff_tax **Number** Effective tax rate
 #' @return **Tibble** with ROE and the other parameters
 #' @examples
-#' ROE <- get_roe(income=333, goodwill=5555, equity=4555)
+#' # ROE <- get_roe(income=333, goodwill=5555, equity=4555)
 #' @export
 #' @importFrom tibble tibble
 get_roe <- function(income, rnd_adj=0, equity, goodwill,
@@ -379,7 +379,7 @@ get_roe <- function(income, rnd_adj=0, equity, goodwill,
 #' @param firm_equity **Number** Firm equity value
 #' @return **Tibble** with bottom-up beta
 #' @examples
-#' beta <- get_beta(average_beta=0.77, industry_tax=0.05, average_de=0.083, firm_tax=0.35, firm_debt=333, firm_equity=444)
+#' # beta <- get_beta(average_beta=0.77, industry_tax=0.05, average_de=0.083, firm_tax=0.35, firm_debt=333, firm_equity=444)
 #' @export
 #' @importFrom tibble tibble
 get_beta <- function(average_beta, industry_tax, average_de,
@@ -398,7 +398,7 @@ get_beta <- function(average_beta, industry_tax, average_de,
 #' @return **Tibble** Cost of Equity
 #' @export
 #' @examples
-#' cost_equity <- get_cost_equity(risk_free=0.015, beta=0.71, rick_premium=0.041)
+#' # cost_equity <- get_cost_equity(risk_free=0.015, beta=0.71, rick_premium=0.041)
 #' @importFrom tibble tibble
 get_cost_equity <- function(risk_free, beta, risk_premium) {
   cost_equity <- risk_free + beta*risk_premium
@@ -414,7 +414,7 @@ get_cost_equity <- function(risk_free, beta, risk_premium) {
 #' @return **Tibble** Cost of Debt
 #' @export
 #' @examples
-#' cost_equity <- get_cost_debt(risk_free=0.015, company_spread=0.01)
+#' # cost_debt <- get_cost_debt(risk_free=0.015, company_spread=0.01)
 #' @importFrom tibble tibble
 get_cost_debt <- function(risk_free, company_spread, country_spread=0) {
   cost_debt <- risk_free + company_spread + country_spread
@@ -431,7 +431,7 @@ get_cost_debt <- function(risk_free, company_spread, country_spread=0) {
 #' @return **Tibble** Cost of Debt
 #' @export
 #' @examples
-#' cost_equity <- get_cost_debt(cost_equity=0.107, cost_debt=0.0929, marginal_tax=0.35, equity=500, debt=300)
+#' # cost_equity <- get_cost_debt(cost_equity=0.107, cost_debt=0.0929, marginal_tax=0.35, equity=500, debt=300)
 #' @importFrom tibble tibble
 get_cost_capital <- function(marginal_tax, cost_equity,
                              cost_debt, equity, debt) {
@@ -452,7 +452,7 @@ get_cost_capital <- function(marginal_tax, cost_equity,
 #' @return **Tibble** Net CapEx
 #' @export
 #' @examples
-#' get_net_capex(capex=584, depreciation=484)
+#' # get_net_capex(capex=584, depreciation=484)
 #' @importFrom tibble tibble
 get_net_capex <- function(capex, depreciation, rnd_expense=0, rnd_amortization=0,
                           acquisition=0, lease_last_year=0, lease_current_year=0,
@@ -472,7 +472,7 @@ get_net_capex <- function(capex, depreciation, rnd_expense=0, rnd_amortization=0
 #' @return **Tibble** Working capital
 #' @export
 #' @examples
-#' get_working_cap(inventory=40, account_receive=80, accounts_payable=40)
+#' # get_working_cap(inventory=40, account_receive=80, accounts_payable=40)
 #' @importFrom tibble tibble
 get_working_cap <- function(inventory, accounts_receive, accounts_payable) {
   working_capital <- (inventory + accounts_receive) - accounts_payable
@@ -495,7 +495,7 @@ get_working_cap <- function(inventory, accounts_receive, accounts_payable) {
 #' @return **Tibble** Reinvestment rate
 #' @export
 #' @examples
-#' get_rr(net_capex=100, working_capital=100, after_tax_ebit=200)
+#' # get_rr(net_capex=100, working_capital=100, after_tax_ebit=200)
 #' @importFrom tibble tibble
 get_rr <- function(net_capex, working_capital, after_tax_ebit) {
   rr <- (net_capex + working_capital)/after_tax_ebit
@@ -509,7 +509,7 @@ get_rr <- function(net_capex, working_capital, after_tax_ebit) {
 #' @return **Tibble** Expected Growth Rate
 #' @export
 #' @examples
-#' get_stable_growth(reinvestment_rate=0.4, roic=0.2)
+#' # get_stable_growth(reinvestment_rate=0.4, roic=0.2)
 #' @importFrom tibble tibble
 get_stable_growth <- function(reinvestment_rate, roic) {
   stable_growth <- reinvestment_rate*roic
@@ -525,7 +525,7 @@ get_stable_growth <- function(reinvestment_rate, roic) {
 #' @return **Tibble** Expected Growth Rate
 #' @export
 #' @examples
-#' get_stable_growth(reinvestment_rate=0.4, roic_initial=0.2, roic_target=0.6, year_target=5)
+#' # get_dynamic_growth(reinvestment_rate=0.4, roic_initial=0.2, roic_target=0.6, year_target=5)
 #' @importFrom tibble tibble
 get_dynamic_growth <- function(reinvestment_rate, roic_initial, roic_target, years_target=5) {
   formula_1 <- roic_target*reinvestment_rate
@@ -548,9 +548,10 @@ get_dynamic_growth <- function(reinvestment_rate, roic_initial, roic_target, yea
 #' @param current_share_price **Number** Current share price
 #' @return **Tibble** FCFF
 #' @export
-#' @examples get_fcff(after_tax_ebit=2481, depreciation=1914, capex=1659,
-#' working_capital=1119, wacc=0.035, growth=0.03, cash=111, debt=475,
-#' current_share_price=34, share_out=111)
+#' @examples
+#' # get_fcff(after_tax_ebit=2481, depreciation=1914, capex=1659,
+#' # working_capital=1119, wacc=0.035, growth=0.03, cash=111, debt=475,
+#' #current_share_price=34, share_out=111)
 #' @importFrom tibble tibble
 get_stable_operating_assets <- function(after_tax_ebit, net_capex, working_capital,
                                         wacc, growth, cash, debt, current_share_price,
@@ -579,8 +580,8 @@ get_stable_operating_assets <- function(after_tax_ebit, net_capex, working_capit
 #' @return **Tibble** Value of operating assets
 #' @export
 #' @examples
-#' get_operating_asses(npv_fcff=111, terminal_value=222, wacc=0.065, cash=111, debt=467,
-#' current_share_price=34, share_out=111)
+#' # get_operating_asses(npv_fcff=111, terminal_value=222, wacc=0.065, cash=111, debt=467,
+#' # current_share_price=34, share_out=111)
 #' @importFrom tibble tibble
 get_operating_assets <- function(npv_fcff, terminal_value, wacc, cash, debt,
                                  share_out, current_share_price) {
@@ -603,7 +604,7 @@ get_operating_assets <- function(npv_fcff, terminal_value, wacc, cash, debt,
 #' @return **Tibble** Terminal Value
 #' @export
 #' @examples
-#' get_terminal_value(ebit_year_five=1300, roic=0.046, wacc=0.1, stable_growth=0.03)
+#' # get_terminal_value(ebit_year_five=1300, roic=0.046, wacc=0.1, stable_growth=0.03)
 #' @importFrom tibble tibble
 get_terminal_value <- function(ebit_year_five, stable_growth, wacc, roic) {
   # Terminal EBIT at year 6
@@ -625,7 +626,7 @@ get_terminal_value <- function(ebit_year_five, stable_growth, wacc, roic) {
 #' @param growth **Number** Estimated growth
 #' @return **List of numbers** NPV FCFF, EBIT 5Y, etc.
 #' @examples
-#' cash_flows <- get_cash_flow(after_tax_ebit=333, reinvestment_rate=0.3, time_period=c(1,2,3,4,5), wacc=0.08, growth=0.03)
+#' # cash_flows <- get_cash_flow(after_tax_ebit=333, reinvestment_rate=0.3, time_period=c(1,2,3,4,5), wacc=0.08, growth=0.03)
 #' @export
 #' @importFrom FinancialMath NPV
 get_cash_flow <- function(after_tax_ebit, reinvestment_rate, time_period, wacc, growth) {
@@ -692,17 +693,17 @@ get_cash_flow <- function(after_tax_ebit, reinvestment_rate, time_period, wacc, 
 #' @return **Tibble** Full description of financial parameters
 #' @examples
 #' # Revenues growth in %
-#' revenues_growth <- list(y1=0.55, y2=0.45, y3=0.40, y4=0.35, y5=0.30,
-#' y6=0.20, y7=0.15, y8=0.12, y9=0.08, y10=0.06)
-#' res <- get_growth_flow(revenue = 1246,
-#' revenue_growth_trend = revenues_growth,
-#' initial_margin = -0.0418, final_margin = 0.14,
-#' tax_margin = 0.375, ebit = -52, nol = 1289,
-#' sales_capital_ratio = 0.5, current_capital_investment = 1000,
-#' debt_to_capital=0.04, bottom_beta=1.37,
-#' terminal_beta=1.1, target_debt_capital=0.44, debt=143, debt_cost=0.05, stock_price=80,
-#' stock_out=130, risk_free=0.015, risk_premium=0.045, target_cost_debt=0.08, option_out=13.805,
-#' cash=196)
+#' # revenues_growth <- list(y1=0.55, y2=0.45, y3=0.40, y4=0.35, y5=0.30,
+#' # y6=0.20, y7=0.15, y8=0.12, y9=0.08, y10=0.06)
+#' # res <- get_growth_flow(revenue = 1246,
+#' # revenue_growth_trend = revenues_growth,
+#' # initial_margin = -0.0418, final_margin = 0.14,
+#' # tax_margin = 0.375, ebit = -52, nol = 1289,
+#' # sales_capital_ratio = 0.5, current_capital_investment = 1000,
+#' # debt_to_capital=0.04, bottom_beta=1.37,
+#' # terminal_beta=1.1, target_debt_capital=0.44, debt=143, debt_cost=0.05, stock_price=80,
+#' # stock_out=130, risk_free=0.015, risk_premium=0.045, target_cost_debt=0.08, option_out=13.805,
+#' # cash=196)
 #' @export
 #' @importFrom tibble tibble
 get_growth_flow <- function(revenue,
@@ -1232,8 +1233,7 @@ get_growth_taxes <- function(ebit, last_nol, marginal_tax) {
 #' @param cost_debt **Number** Synthetic cost of debt (CCC firm)
 #' @return **Number** with bottom-up beta
 #' @examples
-#' beta <- get_beta(risk_free=0.035, risk_premium=0.041, beta=0.77, debt=143, firm_tax=0.35, shares_out=81, stock_price=120, cost_debt=0.08)
-#' @export
+#' # beta <- get_beta_start_up(risk_free=0.035, risk_premium=0.041, beta=0.77, debt=143, shares_out=81, stock_price=120, cost_debt=0.08)
 #' @importFrom tibble tibble
 get_beta_start_up <- function(beta, risk_free, risk_premium, debt,
                      shares_out, stock_price, cost_debt) {

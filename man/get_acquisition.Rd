@@ -19,9 +19,9 @@ Capitalize acquisition investments five years back.
 }
 \examples{
 # List of cash flows
-cash_flow <- list(current=123, y1=333, y2=444, y3=444, y4=555, y5=666)
+# cash_flow <- list(current=123, y1=333, y2=444, y3=444, y4=555, y5=666)
 # Calculate unamortized portion of acquisition
-unamortized_aq <- get_acquisition(cash_flow, amortized=FALSE)
+# unamortized_aq <- get_acquisition(cash_flows=cash_flow, amortized=FALSE)
 # Calculate amortized portion of acquisition
-amortized_aq <- get_acquisition(cash_flow)
+# amortized_aq <- get_acquisition(cash_flows=cash_flow, amortized=FALSE)
 }
