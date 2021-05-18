@@ -19,6 +19,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
+      - uses: codecov/codecov-action@v1
       - uses: r-lib/actions/setup-r@v1
       - name: Install dependencies
         run: |
@@ -30,6 +31,3 @@ jobs:
           options(crayon.enabled = TRUE)
           rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
         shell: Rscript {0}
-      - uses: codecov/codecov-action@v1
-        with:
-          token: ${{"2db59117-26ad-4e5a-ad7a-1184558b2dea"}}
