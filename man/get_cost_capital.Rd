@@ -4,7 +4,7 @@
 \alias{get_cost_capital}
 \title{Calculate Cost of Capital}
 \usage{
-get_cost_capital(marginal_tax, cost_equity, cost_debt, equity, debt)
+get_cost_capital(marginal_tax, cost_equity, cost_debt, market_cap, debt)
 }
 \arguments{
 \item{marginal_tax}{\strong{Number} Marginal tax rate}
@@ -13,7 +13,7 @@ get_cost_capital(marginal_tax, cost_equity, cost_debt, equity, debt)
 
 \item{cost_debt}{\strong{Number} Cost of debt}
 
-\item{equity}{\strong{Number} Firm equity}
+\item{market_cap}{\strong{Number} Firm market capitalization}
 
 \item{debt}{\strong{Number} Firm debt (short and long term)}
 }
@@ -24,5 +24,5 @@ get_cost_capital(marginal_tax, cost_equity, cost_debt, equity, debt)
 Calculate Cost of Capital.
 }
 \examples{
-# cost_equity <- get_cost_debt(cost_equity=0.107, cost_debt=0.0929, marginal_tax=0.35, equity=500, debt=300)
+# cost_equity <- get_cost_debt(cost_equity=0.107, cost_debt=0.0929, marginal_tax=0.35, market_cap=500, debt=300)
 }
