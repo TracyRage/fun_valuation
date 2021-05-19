@@ -250,13 +250,13 @@ test_that("Verify cost of capital", {
     marginal_tax <- 0.35
     cost_equity <- 0.0875
     cost_debt <- 0.0293
-    market_cap <- 34
-    debt <- 18
+    equity <- 340
+    debt <- 600
     expect_equal(get_cost_capital(marginal_tax = marginal_tax,
                                   cost_equity = cost_equity,
                                   cost_debt = cost_debt,
-                                  market_cap = market_cap,
-                                  debt = debt)$cost_capital, 0.040)
+                                  equity = equity,
+                                  debt = debt)$cost_capital, 0.04)
 })
 
 # Test get_acquisition function

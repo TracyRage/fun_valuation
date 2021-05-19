@@ -436,7 +436,7 @@ get_cost_debt <- function(risk_free, company_spread, country_spread=0) {
 get_cost_capital <- function(marginal_tax, cost_equity,
                              cost_debt, equity, debt) {
   cost_capital <- cost_equity*(equity/(debt+equity)) + cost_debt*(1-marginal_tax)*(debt/(debt+equity))
-  tibble(cost_equity=cost_equity, cost_debt=cost_debt, cost_capital=round(cost_capital,4))
+  tibble(cost_equity=cost_equity, cost_debt=cost_debt, cost_capital=round(cost_capital,2))
 }
 
 #' Calculate Net Capital Expenditures (Net CapEx)
