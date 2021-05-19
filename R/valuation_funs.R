@@ -426,17 +426,17 @@ get_cost_debt <- function(risk_free, company_spread, country_spread=0) {
 #' @param marginal_tax **Number** Marginal tax rate
 #' @param cost_equity **Number** Cost of equity
 #' @param cost_debt **Number** Cost of debt
-#' @param market_cap **Number** Firm market capitalization
+#' @param equity **Number** Firm equity
 #' @param debt **Number** Firm debt (short and long term)
 #' @return **Tibble** Cost of Debt
 #' @export
 #' @examples
-#' # cost_equity <- get_cost_debt(cost_equity=0.107, cost_debt=0.0929, marginal_tax=0.35, market_cap=500, debt=300)
+#' # cost_equity <- get_cost_debt(cost_equity=0.107, cost_debt=0.0929, marginal_tax=0.35, equity=500, debt=300)
 #' @importFrom tibble tibble
 get_cost_capital <- function(marginal_tax, cost_equity,
-                             cost_debt, market_cap, debt) {
-  cost_capital <- cost_equity*(debt/(debt+market_cap)) + cost_debt*(1-marginal_tax)*(debt/(debt+market_cap))
-  tibble(cost_equity=cost_equity, cost_debt=cost_debt, cost_capital=round(cost_capital,2))
+                             cost_debt, equity, debt) {
+  cost_capital <- cost_equity*(equity/(debt+equity)) + cost_debt*(1-marginal_tax)*(debt/(debt+equity))
+  tibble(cost_equity=cost_equity, cost_debt=cost_debt, cost_capital=round(cost_capital,4))
 }
 
 #' Calculate Net Capital Expenditures (Net CapEx)
