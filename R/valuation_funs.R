@@ -658,7 +658,7 @@ get_cash_flow <- function(after_tax_ebit, reinvestment_rate, time_period, wacc, 
                  y3=round(fcff_3), y4=round(fcff_4),
                  y5=round(fcff_5))
   # Calculate NPV
-  fcff_npv <- NPV(0, cf = fcff_flow, time_period, wacc)
+  fcff_npv <- FinancialMath::NPV(0, cf = fcff_flow, time_period, wacc)
   # Output
   list(ebit_flow=ebit_flow, fcff_flow=fcff_flow, fcff_npv = round(fcff_npv), ebit_year_five=round(ebit_flow_5))
 
