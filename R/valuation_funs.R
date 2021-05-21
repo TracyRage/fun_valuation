@@ -1283,17 +1283,17 @@ get_tv <- function(terminal_nol, terminal_fcff,
 get_margins <- function(revenues, ebit) {
 
 # Get revenue dynamics (last 5Y)
-rev_per_1 <- round((revenues$y3-revenues$y4)/revenues$y4*100,2)
-rev_per_2 <- round((revenues$y2-revenues$y3)/revenues$y3*100,2)
-rev_per_3 <- round((revenues$y1-revenues$y2)/revenues$y2*100,2)
-rev_per_4 <- round((revenues$current-revenues$y1)/revenues$y1*100,2)
+rev_per_1 <- round((revenues$y3-revenues$y4)/abs(revenues$y4)*100,2)
+rev_per_2 <- round((revenues$y2-revenues$y3)/abs(revenues$y3)*100,2)
+rev_per_3 <- round((revenues$y1-revenues$y2)/abs(revenues$y2)*100,2)
+rev_per_4 <- round((revenues$current-revenues$y1)/abs(revenues$y1)*100,2)
 rev_dynamics <- c(rev_per_1, rev_per_2, rev_per_3, rev_per_4)
 
 # Get EBIT dynamics (last 5Y)
-ebit_per_1 <- round((ebit$y3-ebit$y4)/ebit$y4*100,2)
-ebit_per_2 <- round((ebit$y2-ebit$y3)/ebit$y3*100,2)
-ebit_per_3 <- round((ebit$y1-ebit$y2)/ebit$y2*100,2)
-ebit_per_4 <- round((ebit$current-ebit$y1)/ebit$y1*100,2)
+ebit_per_1 <- round((ebit$y3-ebit$y4)/abs(ebit$y4)*100,2)
+ebit_per_2 <- round((ebit$y2-ebit$y3)/abs(ebit$y3)*100,2)
+ebit_per_3 <- round((ebit$y1-ebit$y2)/abs(ebit$y2)*100,2)
+ebit_per_4 <- round((ebit$current-ebit$y1)/abs(ebit$y1)*100,2)
 ebit_dynamics <- c(ebit_per_1, ebit_per_2, ebit_per_3, ebit_per_4)
 
 # Get margins dynamics (last 5Y)
