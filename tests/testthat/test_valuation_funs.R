@@ -256,7 +256,7 @@ test_that("Verify cost of capital", {
                                   cost_equity = cost_equity,
                                   cost_debt = cost_debt,
                                   equity = equity,
-                                  debt = debt)$cost_capital, 0.04)
+                                  debt = debt)$cost_capital, 0.0438)
 })
 
 # Test get_acquisition function
