@@ -1268,6 +1268,50 @@ get_tv <- function(terminal_nol, terminal_fcff,
 }
 
 
+#' Calculate revenues, EBIT, operating margins dynamics (last 5Y)
+#' @description Calculate percentage of revenue or EBIT increase/decrease over
+#' the last 5Y. Additionally, calculate dynamics of operating margins (last 5Y)
+#' @param revenues **List** Revenues the last 5Y
+#' @param ebit **List** EBIT the last 5Y
+#' @return **List** EBIT/Revenue dynamic and margins
+#' @examples
+#' # revenues <- list(y4=100,y3=256,y2=546,y1=547, current=850)
+#' # ebit <- list(y4=75,y3=133,y2=400,y1=413, current=750)
+#' # margins <- get_margins(revenues=revenues, ebit=ebit)
+#' @export
+#' @importFrom tibble tibble
+get_margins <- function(revenues, ebit) {
+
+# Get revenue dynamics (last 5Y)
+rev_per_1 <- round((revenues$y3-revenues$y4)/revenues$y4*100,2)
+rev_per_2 <- round((revenues$y2-revenues$y3)/revenues$y3*100,2)
+rev_per_3 <- round((revenues$y1-revenues$y2)/revenues$y2*100,2)
+rev_per_4 <- round((revenues$current-revenues$y1)/revenues$y1*100,2)
+rev_dynamics <- c(rev_per_1, rev_per_2, rev_per_3, rev_per_4)
+
+# Get EBIT dynamics (last 5Y)
+ebit_per_1 <- round((ebit$y3-ebit$y4)/ebit$y4*100,2)
+ebit_per_2 <- round((ebit$y2-ebit$y3)/ebit$y3*100,2)
+ebit_per_3 <- round((ebit$y1-ebit$y2)/ebit$y2*100,2)
+ebit_per_4 <- round((ebit$current-ebit$y1)/ebit$y1*100,2)
+ebit_dynamics <- c(ebit_per_1, ebit_per_2, ebit_per_3, ebit_per_4)
+
+# Get margins dynamics (last 5Y)
+margin_4 <- round(ebit$y4/revenues$y4*100,0)
+margin_3 <- round(ebit$y3/revenues$y3*100,0)
+margin_2 <- round(ebit$y2/revenues$y2*100,0)
+margin_1 <- round(ebit$y1/revenues$y1*100,0)
+margin_current <- round(ebit$current/revenues$current*100,0)
+margin_dynamics <- list(y5=margin_4, y4=margin_3,
+                        y3=margin_2, y2=margin_1, y1=margin_current)
+
+
+list(tibble(revenue_dynamic=rev_dynamics,
+            ebit_dynamic=ebit_dynamics),
+     margins_dynamics=margin_dynamics)
+
+}
+
 
 
 

@@ -467,3 +467,13 @@ test_that("Verify start-up terminal value", {
                       marginal_tax = marginal_tax,
                       terminal_growth = terminal_growth), 15835)
 })
+
+# Test get_margins
+test_that("Verify margins", {
+  revenues <- list(y4=100,y3=256,y2=546,y1=547, current=850)
+  ebit <- list(y4=75,y3=133,y2=400,y1=413, current=750)
+  expect_equal(get_margins(revenues = revenues, ebit = ebit)[[1]]$revenue_dynamic,
+               c(156.00, 113.28, 0.18, 55.39))
+  expect_equal(get_margins(revenues = revenues, ebit = ebit)[[2]],
+               list(y5=75, y4=52, y3=73, y2=76, y1=88))
+})
