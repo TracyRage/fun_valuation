@@ -38,6 +38,8 @@ get_growth_flow(
 
 \item{final_margin}{\strong{Number} Final year operating margin}
 
+\item{tax_margin}{\strong{Number} Marginal tax rate}
+
 \item{ebit}{\strong{Number} Current year EBIT}
 
 \item{nol}{\strong{Number} Net Operating Losses}

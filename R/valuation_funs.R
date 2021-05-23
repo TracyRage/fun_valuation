@@ -669,6 +669,7 @@ get_cash_flow <- function(after_tax_ebit, reinvestment_rate, time_period, wacc, 
 #' @param revenue **Number** Current year revenues
 #' @param initial_margin **Number** Current year operating margin
 #' @param final_margin **Number** Final year operating margin
+#' @param tax_margin **Number** Marginal tax rate
 #' @param revenue_growth_trend **List of numbers** Revenue growth next 10 years
 #' @param ebit **Number** Current year EBIT
 #' @param marginal_tax **Number** Marginal tax (industry specific)
