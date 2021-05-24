@@ -1235,6 +1235,7 @@ get_growth_taxes <- function(ebit, last_nol, marginal_tax) {
 #' @return **Number** with bottom-up beta
 #' @examples
 #' # beta <- get_beta_start_up(risk_free=0.035, risk_premium=0.041, beta=0.77, debt=143, shares_out=81, stock_price=120, cost_debt=0.08)
+#' @export
 #' @importFrom tibble tibble
 get_beta_start_up <- function(beta, risk_free, risk_premium, debt,
                      shares_out, stock_price, cost_debt) {
