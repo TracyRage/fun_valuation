@@ -406,9 +406,11 @@ test_that("Verify NPV", {
 test_that("Verify NOL", {
   nol_1 <- 400
   nol_2 <- 200
+  nol_3 <- 0
   ebit <- 300
   expect_equal(get_nol(nol=nol_1, ebit = ebit), 100)
   expect_equal(get_nol(nol=nol_2, ebit = ebit), 0)
+  expect_equal(get_nol(nol=nol_3, ebit = ebit), 0)
 })
 
 # Test get_growth_taxes

@@ -1199,6 +1199,7 @@ get_growth_flow <- function(revenue,
 #' @param nol **Number** NOL
 #' @param ebit **Number** EBIT
 #' @return **Number**
+#' @export
 get_nol <- function(nol, ebit) {
   if (ebit<nol) {
     nol <- nol-ebit
@@ -1213,6 +1214,7 @@ get_nol <- function(nol, ebit) {
 #' @param last_nol A number Last year NOL
 #' @param marginal_tax A number Marginal tax (industry)
 #' @return **Number**
+#' @export
 get_growth_taxes <- function(ebit, last_nol, marginal_tax) {
   if (ebit < 0) {
     tax_paid <- 0
