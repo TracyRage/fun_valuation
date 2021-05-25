@@ -1243,9 +1243,9 @@ get_beta_start_up <- function(beta, risk_free, risk_premium, debt,
   market_cap <- shares_out*stock_price
   debt_ratio <- debt / (debt + market_cap)
   cost_capital <- cost_equity*(1-debt_ratio) + cost_debt*(1-0)*debt_ratio
-  list(cost_equity=round(cost_equity,2),
-       debt_to_capital=round(debt_ratio,2),
-       cost_capital=round(cost_capital,2),
+  list(cost_equity=round(cost_equity,3),
+       debt_to_capital=round(debt_ratio,3),
+       cost_capital=round(cost_capital,3),
        beta=beta)
 }
 
@@ -1312,6 +1312,24 @@ list(tibble(revenue_dynamic=rev_dynamics,
             ebit_dynamic=ebit_dynamics),
      margins_dynamics=margin_dynamics)
 
+}
+
+#' Get revenue evolution for the past 5Y (start-ups)
+#' @description Calculate percentage increase/decrease of start-up revenues.
+#' @param revenues **List** Revenues the last 5Y
+#' @return **List** Percentage list of revenue dynamics
+#' @export
+#' @examples
+#' # revenues <- list(y4=100,y3=256,y2=546,y1=547, current=850)
+#' # get_revenue_dynamic(revenues = revenues)
+get_revenue_dynamic <- function(revenues) {
+  # Get revenue dynamics (last 5Y)
+  rev_per_1 <- round((revenues$y3-revenues$y4)/abs(revenues$y4)*100,2)
+  rev_per_2 <- round((revenues$y2-revenues$y3)/abs(revenues$y3)*100,2)
+  rev_per_3 <- round((revenues$y1-revenues$y2)/abs(revenues$y2)*100,2)
+  rev_per_4 <- round((revenues$current-revenues$y1)/abs(revenues$y1)*100,2)
+  rev_dynamics <- list(y_4_3=rev_per_1, y_3_2=rev_per_2,
+                       y_2_1=rev_per_3, y_1_current=rev_per_4)
 }
 
 

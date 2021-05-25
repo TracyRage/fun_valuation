@@ -446,7 +446,7 @@ test_that("Verify beta, cost of capital etc.", {
                                  debt = debt,
                                  shares_out = shares_out,
                                  stock_price = stock_price,
-                                 cost_debt = cost_debt)$cost_capital, 0.11)
+                                 cost_debt = cost_debt)$cost_capital, 0.109)
 })
 
 # Test get_tv
@@ -476,4 +476,10 @@ test_that("Verify margins", {
                c(156.00, 113.28, 0.18, 55.39))
   expect_equal(get_margins(revenues = revenues, ebit = ebit)[[2]],
                list(y5=75, y4=52, y3=73, y2=76, y1=88))
+})
+
+# Test get_revenues_dynamic
+test_that("Verify revenue dynamic", {
+  revenues <- list(y4=100,y3=256,y2=546,y1=547, current=850)
+  expect_equal(get_revenue_dynamic(revenues = revenues)$y_4_3, 156.00)
 })
