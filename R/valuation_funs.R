@@ -873,17 +873,17 @@ get_growth_flow <- function(revenue,
 
   # Calculate NOL
   nol_initial <- nol
-  nol_y1 <- round(get_nol(nol=nol_initial, ebit = ebit_y1),0)
-  nol_y2 <- round(get_nol(nol=nol_y1, ebit = ebit_y2),0)
-  nol_y3 <- round(get_nol(nol=nol_y2, ebit = ebit_y3),0)
-  nol_y4 <- round(get_nol(nol=nol_y3, ebit = ebit_y4),0)
-  nol_y5 <- round(get_nol(nol=nol_y4, ebit = ebit_y5),0)
-  nol_y6 <- round(get_nol(nol=nol_y5, ebit = ebit_y6),0)
-  nol_y7 <- round(get_nol(nol=nol_y6, ebit = ebit_y7),0)
-  nol_y8 <- round(get_nol(nol=nol_y7, ebit = ebit_y8),0)
-  nol_y9 <- round(get_nol(nol=nol_y8, ebit = ebit_y9),0)
-  nol_y10 <- round(get_nol(nol=nol_y9, ebit = ebit_y10),0)
-  nol_terminal <- round(get_nol(nol=nol_y10, ebit = ebit_terminal),0)
+  nol_y1 <- round(get_nol(nol=nol_initial, ebit = ebit_y1),3)
+  nol_y2 <- round(get_nol(nol=nol_y1, ebit = ebit_y2),3)
+  nol_y3 <- round(get_nol(nol=nol_y2, ebit = ebit_y3),3)
+  nol_y4 <- round(get_nol(nol=nol_y3, ebit = ebit_y4),3)
+  nol_y5 <- round(get_nol(nol=nol_y4, ebit = ebit_y5),3)
+  nol_y6 <- round(get_nol(nol=nol_y5, ebit = ebit_y6),3)
+  nol_y7 <- round(get_nol(nol=nol_y6, ebit = ebit_y7),3)
+  nol_y8 <- round(get_nol(nol=nol_y7, ebit = ebit_y8),3)
+  nol_y9 <- round(get_nol(nol=nol_y8, ebit = ebit_y9),3)
+  nol_y10 <- round(get_nol(nol=nol_y9, ebit = ebit_y10),3)
+  nol_terminal <- round(get_nol(nol=nol_y10, ebit = ebit_terminal),3)
   nol_10_years <- c(nol_initial=nol_initial,
                     y1=nol_y1,
                     y2=nol_y2,
